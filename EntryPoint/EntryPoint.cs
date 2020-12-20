@@ -3,13 +3,13 @@ using System.Collections.Generic;
 
 namespace Juce.Core.EntryPoint
 {
-    public abstract class EntryPoint
+    public abstract class EntryPoint<T>
     {
         private bool executed;
 
         private readonly List<Action> cleanUpActions = new List<Action>();
 
-        public event Action OnFinish;
+        public event Action<T> OnFinish;
 
         public void Execute()
         {
@@ -25,14 +25,14 @@ namespace Juce.Core.EntryPoint
             OnExecute();
         }
 
-        public void Finish()
+        public void Finish(T finishRestult)
         {
             if (!executed)
             {
                 return;
             }
 
-            OnFinish?.Invoke();
+            OnFinish?.Invoke(finishRestult);
         }
 
         public void CleanUp()

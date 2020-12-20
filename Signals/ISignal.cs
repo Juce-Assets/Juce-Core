@@ -8,4 +8,11 @@ namespace Juce.CoreUnity.Time
 
         void Trigger(T data);
     }
+
+    public interface ISignal
+    {
+        event Action OnTriggered;
+
+        void Trigger();
+    }
 }

@@ -3,7 +3,7 @@
     public class InfiniteUIntAmmount : IAmmount<int>
     {
         public bool IsInfinite { get => true; }
-        public int Value { get => int.MaxValue; }
+        public int Value { get => 1; }
 
         public void Add(int ammount)
         {
