@@ -6,9 +6,9 @@ namespace Juce.Core.Pathfinding
     public class PathfindingPath<T> where T : IEquatable<T>
     {
         public PathfindingResultType ResultType { get; }
-        public IReadOnlyList<IPathfindingNode<T>> Result { get; }
+        public IReadOnlyList<T> Result { get; }
 
-        public PathfindingPath(PathfindingResultType resultType, IReadOnlyList<IPathfindingNode<T>> result)
+        public PathfindingPath(PathfindingResultType resultType, IReadOnlyList<T> result)
         {
             ResultType = resultType;
             Result = result;
