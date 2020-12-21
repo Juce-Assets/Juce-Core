@@ -46,6 +46,11 @@ namespace Juce.Core.Pathfinding.Algorithms
                 throw new ArgumentNullException($"Origin {nameof(T)} was null at {nameof(AStarPathfindingAlgorithm<T>)}");
             }
 
+            if(originValue.Equals(destinationValue))
+            {
+                Finish(AStarPathfindingResult.OriginIsDestination, new PathfindingNode<T>(null, originValue));
+            }
+
             AddToCheck(null, new List<T> { originValue });
         }
 
