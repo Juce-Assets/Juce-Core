@@ -25,7 +25,7 @@ namespace Juce.Core.Collections
 
             for (int i = 0; i < list.Count; ++i)
             {
-                if (list[i].Priority > priority)
+                if (list[i].Priority < priority)
                 {
                     list.Insert(i, new Item(element, priority));
 

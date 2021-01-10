@@ -48,7 +48,7 @@ namespace Juce.Core.Pathfinding.Algorithms
 
             if(originValue.Equals(destinationValue))
             {
-                Finish(AStarPathfindingResult.OriginIsDestination, new PathfindingNode<T>(null, originValue));
+                Finish(AStarPathfindingResult.OriginIsDestination, new PathfindingNode<T>(null, originValue, float.MinValue));
             }
 
             AddToCheck(null, new List<T> { originValue });
@@ -63,7 +63,7 @@ namespace Juce.Core.Pathfinding.Algorithms
 
             if (toCheck.Count == 0)
             {
-                Finish(AStarPathfindingResult.DestinationCouldNotBeReached, null);
+                Finish(AStarPathfindingResult.DestinationCouldNotBeReached, GetVisitedWithMorePriority());
                 Finished = true;
                 return;
             }
@@ -105,9 +105,9 @@ namespace Juce.Core.Pathfinding.Algorithms
                     continue;
                 }
 
-                PathfindingNode<T> newPathfindingNode = new PathfindingNode<T>(parent, value);
-
                 float priority = getPriorityFunc.Invoke(value);
+
+                PathfindingNode<T> newPathfindingNode = new PathfindingNode<T>(parent, value, priority);
 
                 toCheck.Add(newPathfindingNode, priority);
             }
@@ -154,6 +154,23 @@ namespace Juce.Core.Pathfinding.Algorithms
             }
 
             return visited.ContainsKey(value);
+        }
+
+        private PathfindingNode<T> GetVisitedWithMorePriority()
+        {
+            PathfindingNode<T> maxPriorityNode = null;
+            float maxPriority = float.MinValue;
+
+            foreach(PathfindingNode<T> node in visited.Values)
+            {
+                if(node.Priority > maxPriority)
+                {
+                    maxPriorityNode = node;
+                    maxPriority = node.Priority;
+                }
+            }
+
+            return maxPriorityNode;
         }
 
         private void Finish(AStarPathfindingResult result, PathfindingNode<T> destinationNode)

@@ -13,6 +13,12 @@ namespace Juce.Core.Containers
 
         }
 
+        public Int2(Int2 value)
+        {
+            X = value.X;
+            Y = value.Y;
+        }
+
         public Int2(int x, int y)
         {
             X = x;
@@ -22,6 +28,16 @@ namespace Juce.Core.Containers
         public bool Equals(Int2 other)
         {
             return X == other.X && Y == other.Y;
+        }
+
+        public override int GetHashCode()
+        {
+            return (X, Y).GetHashCode();
+        }
+
+        public float Distance(Int2 value)
+        {
+            return (float)Math.Sqrt(Math.Pow(value.X - X, 2) + Math.Pow(value.Y - Y, 2));
         }
     }
 }

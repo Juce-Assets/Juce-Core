@@ -88,7 +88,7 @@ namespace Juce.Core.Pathfinding.Algorithms
                     continue;
                 }
 
-                PathfindingNode<T> newPathfindingNode = new PathfindingNode<T>(parent, value);
+                PathfindingNode<T> newPathfindingNode = new PathfindingNode<T>(parent, value, 0);
 
                 toCheck.Add(newPathfindingNode);
             }
