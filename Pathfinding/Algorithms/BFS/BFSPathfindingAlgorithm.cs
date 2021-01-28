@@ -6,7 +6,7 @@ namespace Juce.Core.Pathfinding.Algorithms
     public class BFSPathfindingAlgorithm<T> : IPathfindingAlgorithm<T> where T : IEquatable<T>
     {
         private readonly Func<T, IReadOnlyList<T>> getChildsFunc;
-        private readonly Func<IReadOnlyDictionary<T, PathfindingNode<T>>, PathfindingPath<T>> generateResultFunc;
+        private readonly Func<IReadOnlyDictionary<T, PathfindingNode<T>>, IReadOnlyList<T>> generateResultFunc;
 
         private readonly T originValue;
 
@@ -14,11 +14,11 @@ namespace Juce.Core.Pathfinding.Algorithms
         private readonly Dictionary<T, PathfindingNode<T>> visited = new Dictionary<T, PathfindingNode<T>>();
 
         public bool Finished { get; private set; }
-        public PathfindingPath<T> Result { get; private set; }
+        public IReadOnlyList<T> Result { get; private set; }
 
         public BFSPathfindingAlgorithm(
             Func<T, IReadOnlyList<T>> getChildsFunc,
-            Func<IReadOnlyDictionary<T, PathfindingNode<T>>, PathfindingPath<T>> generateResultFunc,
+            Func<IReadOnlyDictionary<T, PathfindingNode<T>>, IReadOnlyList<T>> generateResultFunc,
             T originValue
             )
         {

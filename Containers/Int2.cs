@@ -39,5 +39,16 @@ namespace Juce.Core.Containers
         {
             return (float)Math.Sqrt(Math.Pow(value.X - X, 2) + Math.Pow(value.Y - Y, 2));
         }
+
+        public Int2 ManhattanDistance(Int2 value)
+        {
+            return new Int2(value.X - X, value.Y - Y);
+        }
+
+        public void MakeAbs()
+        {
+            X = Math.Abs(X);
+            Y = Math.Abs(Y);
+        }
     }
 }

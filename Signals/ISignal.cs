@@ -1,18 +1,20 @@
 ﻿using System;
 
-namespace Juce.CoreUnity.Time
+namespace Juce.Core.Time
 {
-    public interface ISignal<T>
+    public interface ISignal<TSender, TData>
     {
-        event Action<T> OnTriggered;
+        event Action<TSender, TData> OnTriggered;
 
-        void Trigger(T data);
+        void Trigger(TSender sender, TData data);
+        void CleanUp();
     }
 
-    public interface ISignal
+    public interface ISignal<TSender>
     {
-        event Action OnTriggered;
+        event Action<TSender> OnTriggered;
 
-        void Trigger();
+        void Trigger(TSender sender);
+        void CleanUp();
     }
 }
