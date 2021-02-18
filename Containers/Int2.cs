@@ -2,16 +2,11 @@
 
 namespace Juce.Core.Containers
 {
-    [System.Serializable]
-    public class Int2 : IEquatable<Int2>
+    [Serializable]
+    public struct Int2 : IEquatable<Int2>
     {
         public int X { get; set; }
         public int Y { get; set; }
-
-        public Int2()
-        {
-
-        }
 
         public Int2(Int2 value)
         {
@@ -49,6 +44,11 @@ namespace Juce.Core.Containers
         {
             X = Math.Abs(X);
             Y = Math.Abs(Y);
+        }
+
+        public override string ToString()
+        {
+            return $"X:{X}, Y:{Y}";
         }
     }
 }

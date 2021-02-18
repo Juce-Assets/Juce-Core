@@ -10,7 +10,7 @@ namespace Juce.Core.State
 
         public StateMachineState<T> CurrentState { get; private set; }
 
-        public void RegisterState(T stateId, Action stateAction)
+        public void RegisterState(T stateId, IStateMachineStateAction stateAction)
         {
             states.Add(stateId, new StateMachineState<T>(stateId, stateAction));
         }
@@ -45,7 +45,7 @@ namespace Juce.Core.State
 
             CurrentState = stateData;
 
-            stateData.StateAction?.Invoke();
+            stateData.StateAction?.OnEnter();
         }
 
         public void Next(T state)
@@ -69,9 +69,13 @@ namespace Juce.Core.State
                 throw new Exception();
             }
 
+            StateMachineState<T> lastState = CurrentState;
+
             CurrentState = stateData;
 
-            stateData.StateAction?.Invoke();
+            lastState.StateAction.OnExit();
+
+            stateData.StateAction?.OnEnter();
         }
     }
 }

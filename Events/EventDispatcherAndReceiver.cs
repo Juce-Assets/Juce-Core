@@ -3,11 +3,13 @@ using System.Collections.Generic;
 
 namespace Juce.Core.Events
 {
-    public class EventDispatcher : IEventDispatcher
+    public class EventDispatcherAndReceiver : IEventDispatcher, IEventReceiver
     {
+        private readonly Queue<KeyValuePair<Type, object>> eventQueue = new Queue<KeyValuePair<Type, object>>();
+
         private readonly Dictionary<Type, List<EventReference>> eventHandlers = new Dictionary<Type, List<EventReference>>();
 
-        private readonly List<object> eventStack = new List<object>();
+        public int EventQueueCount => eventQueue.Count;
 
         public IEventReference Subscribe<T>(Action<T> action) where T : class
         {
@@ -46,7 +48,19 @@ namespace Juce.Core.Events
         {
             Type type = typeof(T);
 
-            bool found = eventHandlers.TryGetValue(type, out List<EventReference> eventReferenceList);
+            eventQueue.Enqueue(new KeyValuePair<Type, object>(type, ev));
+        }
+
+        public void DequeNext()
+        {
+            if(eventQueue.Count == 0)
+            {
+                return;
+            }
+
+            KeyValuePair<Type, object> currEvent = eventQueue.Dequeue();
+
+            bool found = eventHandlers.TryGetValue(currEvent.Key, out List<EventReference> eventReferenceList);
 
             if (!found)
             {
@@ -57,25 +71,8 @@ namespace Juce.Core.Events
 
             foreach (EventReference eventReference in toInvoke)
             {
-                eventReference.Action?.Invoke(ev);
+                eventReference.Action?.Invoke(currEvent.Value);
             }
-
-            eventStack.Add(ev);
-        }
-
-        public bool TryPopEventStack(out List<object> outEventStack)
-        {
-            if (eventStack.Count == 0)
-            {
-                outEventStack = null;
-                return false;
-            }
-
-            outEventStack = new List<object>(eventStack);
-
-            eventStack.Clear();
-
-            return true;
         }
     }
 }

@@ -2,16 +2,16 @@
 
 namespace Juce.Core.Sequencing
 {
-    public class CallbackInstruction : InstantInstruction
+    public class ActionInstruction : InstantInstruction
     {
         private readonly Action action;
 
-        public CallbackInstruction(Action action)
+        public ActionInstruction(Action action)
         {
             this.action = action;
         }
 
-        protected override void OnInstantStart()
+        protected sealed override void OnInstantExecute()
         {
             action?.Invoke();
         }

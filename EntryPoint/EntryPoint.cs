@@ -5,29 +5,29 @@ namespace Juce.Core.EntryPoint
 {
     public abstract class EntryPoint<T>
     {
-        private bool executed;
+        private bool started;
 
         private readonly List<Action> cleanUpActions = new List<Action>();
 
         public event Action<T> OnFinish;
 
-        public void Execute()
+        public void Start()
         {
-            if (executed)
+            if (started)
             {
                 return;
             }
 
-            executed = true;
+            started = true;
 
             cleanUpActions.Clear();
 
-            OnExecute();
+            OnStart();
         }
 
         public void Finish(T finishRestult)
         {
-            if (!executed)
+            if (!started)
             {
                 return;
             }
@@ -53,6 +53,6 @@ namespace Juce.Core.EntryPoint
             cleanUpActions.Add(action);
         }
 
-        protected abstract void OnExecute();
+        protected abstract void OnStart();
     }
 }

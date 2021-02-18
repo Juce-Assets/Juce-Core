@@ -8,10 +8,10 @@ namespace Juce.Core.State
         private readonly List<T> connections = new List<T>();
 
         public T StateId { get; }
-        public Action StateAction { get; }
+        public IStateMachineStateAction StateAction { get; }
         public IReadOnlyList<T> Connections => connections;
 
-        public StateMachineState(T stateId, Action stateAction)
+        public StateMachineState(T stateId, IStateMachineStateAction stateAction)
         {
             StateId = stateId;
             StateAction = stateAction;
