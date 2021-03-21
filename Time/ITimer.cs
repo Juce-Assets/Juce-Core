@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Juce.CoreUnity.Time
+namespace Juce.Core.Time
 {
     public interface ITimer
     {

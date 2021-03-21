@@ -8,6 +8,8 @@ namespace Juce.Core.State
     {
         private readonly Dictionary<T, StateMachineState<T>> states = new Dictionary<T, StateMachineState<T>>();
 
+        private bool stateChangeLocked;
+
         public StateMachineState<T> CurrentState { get; private set; }
 
         public void RegisterState(T stateId, IStateMachineStateAction stateAction)
@@ -45,7 +47,13 @@ namespace Juce.Core.State
 
             CurrentState = stateData;
 
+            stateChangeLocked = true;
+
             stateData.StateAction?.OnEnter();
+
+            stateChangeLocked = false;
+
+            stateData.StateAction?.OnRun();
         }
 
         public void Next(T state)
@@ -53,6 +61,11 @@ namespace Juce.Core.State
             if(CurrentState == null)
             {
                 throw new Exception();
+            }
+
+            if(stateChangeLocked)
+            {
+                throw new InvalidOperationException($"State change is locked during OnEnter and OnExit functions of a state");
             }
 
             bool foundConnection = CurrentState.Connections.Contains(state);
@@ -73,9 +86,15 @@ namespace Juce.Core.State
 
             CurrentState = stateData;
 
+            stateChangeLocked = true;
+
             lastState.StateAction.OnExit();
 
-            stateData.StateAction?.OnEnter();
+            CurrentState.StateAction?.OnEnter();
+
+            stateChangeLocked = false;
+
+            CurrentState.StateAction.OnRun();
         }
     }
 }

@@ -11,17 +11,17 @@ namespace Juce.Core.Ammount
 
         public VariableUIntAmmount(int value)
         {
-            this.value = Math.Max(value, 0);
+            this.value = System.Math.Max(value, 0);
         }
 
         public void Add(int ammount)
         {
-            this.value = Math.Max(value + ammount, 0);
+            this.value = System.Math.Max(value + ammount, 0);
         }
 
         public void Substract(int ammount)
         {
-            this.value = Math.Max(value - ammount, 0);
+            this.value = System.Math.Max(value - ammount, 0);
         }
 
         public IAmmount<int> DeepCopy()

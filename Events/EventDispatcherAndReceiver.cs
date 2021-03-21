@@ -34,6 +34,11 @@ namespace Juce.Core.Events
         {
             EventReference typedEventReference = eventReference as EventReference;
 
+            if(eventReference == null)
+            {
+                return;
+            }
+
             bool found = eventHandlers.TryGetValue(typedEventReference.Type, out List<EventReference> eventReferenceList);
 
             if (!found)

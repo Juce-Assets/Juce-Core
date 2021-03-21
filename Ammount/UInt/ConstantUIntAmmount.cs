@@ -11,7 +11,7 @@ namespace Juce.Core.Ammount
 
         public ConstantUIntAmmount(int value)
         {
-            this.value = Math.Max(value, 0);
+            this.value = System.Math.Max(value, 0);
         }
 
         public void Add(int ammount)
