@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Threading.Tasks;
 
-namespace Juce.Core.Time
+namespace Juce.Core.Visibility
 {
     public interface IVisible
     {
-        void Show(bool instantly, Action onFinish = null);
-        void Hide(bool instantly, Action onFinish = null);
+        Task Show(bool instantly);
+        Task Hide(bool instantly);
     }
 }
