@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Juce.Core.Math
+namespace Juce.Core.Containers
 {
     public struct Float2 : IEquatable<Float2>
     {

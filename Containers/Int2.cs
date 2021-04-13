@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Juce.Core.Math
+namespace Juce.Core.Containers
 {
     [Serializable]
     public struct Int2 : IEquatable<Int2>
