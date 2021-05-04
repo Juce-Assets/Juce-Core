@@ -5,18 +5,15 @@ public static class JuceCoreStringExtensions
 {
     public static string FirstCharToUpper(this string str)
     {
-        string ret = str;
-
-        if (!string.IsNullOrEmpty(str))
+        if(string.IsNullOrEmpty(str))
         {
-            StringBuilder sb = new StringBuilder(ret);
-
-            sb[0] = char.ToUpper(sb[0]);
-
-            ret = sb.ToString();
+            return str;
         }
 
-        return ret;
+        StringBuilder stringBuilder = new StringBuilder(str);
+        stringBuilder[0] = char.ToUpper(stringBuilder[0]);
+
+        return stringBuilder.ToString();
     }
 
     public static Stream ToStream(this string str)
