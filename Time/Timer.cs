@@ -59,7 +59,7 @@ namespace Juce.Core.Time
 
         public bool HasReached(TimeSpan timeSpan)
         {
-            return TimeSpan.Compare(timeSpan, Time) != -1;
+            return TimeSpan.Compare(timeSpan, Time) == -1;
         }
     }
 }

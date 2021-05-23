@@ -4,15 +4,17 @@ using System.Linq;
 
 namespace Juce.Core.State
 {
-    public class StateMachine<T> where T : Enum
+    public class StateMachine<T> : IStateMachine<T> where T : Enum
     {
         private readonly Dictionary<T, StateMachineState<T>> states = new Dictionary<T, StateMachineState<T>>();
 
-        private bool stateChangeLocked;
+        private bool idle;
+
+        private StateMachineState<T> nextState;
 
         public StateMachineState<T> CurrentState { get; private set; }
 
-        public void RegisterState(T stateId, IStateMachineStateAction stateAction)
+        public void RegisterState(T stateId, IStateMachineStateAction<T> stateAction)
         {
             states.Add(stateId, new StateMachineState<T>(stateId, stateAction));
         }
@@ -38,43 +40,13 @@ namespace Juce.Core.State
 
         public void Start(T state)
         {
-            bool found = states.TryGetValue(state, out StateMachineState<T> stateData);
+            idle = true;
 
-            if (!found)
-            {
-                throw new Exception();
-            }
-
-            CurrentState = stateData;
-
-            stateChangeLocked = true;
-
-            stateData.StateAction?.OnEnter();
-
-            stateChangeLocked = false;
-
-            stateData.StateAction?.OnRun();
+            SetNextState(state);
         }
 
-        public void Next(T state)
+        public void SetNextState(T state)
         {
-            if(CurrentState == null)
-            {
-                throw new Exception();
-            }
-
-            if(stateChangeLocked)
-            {
-                throw new InvalidOperationException($"State change is locked during OnEnter and OnExit functions of a state");
-            }
-
-            bool foundConnection = CurrentState.Connections.Contains(state);
-
-            if(!foundConnection)
-            {
-                throw new Exception();
-            }
-
             bool found = states.TryGetValue(state, out StateMachineState<T> stateData);
 
             if (!found)
@@ -82,19 +54,70 @@ namespace Juce.Core.State
                 throw new Exception();
             }
 
-            StateMachineState<T> lastState = CurrentState;
+            nextState = stateData;
 
-            CurrentState = stateData;
+            if(!idle)
+            {
+                return;
+            }
 
-            stateChangeLocked = true;
+            Next();
+        }
 
-            lastState.StateAction.OnExit();
+        private void Next()
+        {
+            if (!idle)
+            {
+                throw new Exception("Not idle");
+            }
+
+            idle = false;
+
+            bool tryNext = true;
+
+            while(tryNext)
+            {
+                tryNext = TryNext();
+            }
+
+            idle = true;
+        }
+
+        private bool TryNext()
+        {
+            if(nextState == null)
+            {
+                return false;
+            }
+
+            if (CurrentState != null)
+            {
+                bool foundConnection = CurrentState.Connections.Contains(nextState.StateId);
+
+                if (!foundConnection)
+                {
+                    throw new Exception();
+                }
+
+                bool found = states.TryGetValue(nextState.StateId, out StateMachineState<T> stateData);
+
+                if (!found)
+                {
+                    throw new Exception();
+                }
+
+                CurrentState.StateAction.OnExit();
+            }
+
+            CurrentState = nextState;
+
+            nextState = null;
 
             CurrentState.StateAction?.OnEnter();
 
-            stateChangeLocked = false;
+            CurrentState.StateAction.OnRun(this);
 
-            CurrentState.StateAction.OnRun();
+            return true;
         }
     }
 }

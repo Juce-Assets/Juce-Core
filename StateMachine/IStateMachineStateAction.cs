@@ -1,9 +1,11 @@
-﻿namespace Juce.Core.State
+﻿using System;
+
+namespace Juce.Core.State
 {
-    public interface IStateMachineStateAction
+    public interface IStateMachineStateAction<T> where T : Enum
     {
         void OnEnter();
-        void OnRun();
+        void OnRun(IStateMachine<T> stateMachine);
         void OnExit();
     }
 }
