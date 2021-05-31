@@ -9,10 +9,18 @@ namespace Juce.Core.Sequencing
     {
         private readonly Queue<Instruction> instructionQueue = new Queue<Instruction>();
 
+        private TaskCompletionSource<object> taskCompletitionSource;
         private CancellationTokenSource cancellationTokenSource;
+
+        public bool Enabled { get; set; } = true;
 
         public void Play(Instruction instruction)
         {
+            if(!Enabled)
+            {
+                return;
+            }
+
             instructionQueue.Enqueue(instruction);
 
             TryRunInstructions();
@@ -38,6 +46,16 @@ namespace Juce.Core.Sequencing
             cancellationTokenSource.Cancel();
         }
 
+        public Task WaitCompletition()
+        {
+            if(taskCompletitionSource == null)
+            {
+                return Task.CompletedTask;
+            }
+
+            return taskCompletitionSource.Task;
+        }
+
         private async void TryRunInstructions()
         {
             if(instructionQueue.Count == 0)
@@ -50,6 +68,7 @@ namespace Juce.Core.Sequencing
                 return;
             }
 
+            taskCompletitionSource = new TaskCompletionSource<object>();
             cancellationTokenSource = new CancellationTokenSource();
 
             while (instructionQueue.Count > 0)
@@ -59,6 +78,7 @@ namespace Juce.Core.Sequencing
                 await currentInstruction.Execute(cancellationTokenSource.Token);
             }
 
+            taskCompletitionSource.SetResult(null);
             cancellationTokenSource = null;
         }
     }

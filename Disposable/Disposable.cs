@@ -4,11 +4,11 @@ namespace Juce.Core.Disposables
 {
     public class Disposable<T> : IDisposable<T>
     {
-        private readonly Action onDispose;
+        private readonly Action<T> onDispose;
 
         public T Value { get; }
 
-        public Disposable(T value, Action onDispose)
+        public Disposable(T value, Action<T> onDispose)
         {
             Value = value;
             this.onDispose = onDispose;
@@ -16,7 +16,7 @@ namespace Juce.Core.Disposables
 
         public void Dispose()
         {
-            onDispose?.Invoke();
+            onDispose?.Invoke(Value);
         }
     }
 }
