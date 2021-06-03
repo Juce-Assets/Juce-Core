@@ -7,6 +7,9 @@ namespace Juce.Core.Time
         private bool started;
         private TimeSpan startTime;
 
+        private bool paused;
+        private TimeSpan pausedTime;
+
         public ITimeContext TimeContext { get; private set; }
 
         public TimeSpan Time
@@ -16,6 +19,11 @@ namespace Juce.Core.Time
                 if (!started)
                 {
                     return TimeSpan.Zero;
+                }
+
+                if(paused)
+                {
+                    return pausedTime;
                 }
 
                 return TimeContext.Time - startTime;
@@ -44,11 +52,47 @@ namespace Juce.Core.Time
             startTime = TimeContext.Time;
         }
 
+        public void Pause()
+        {
+            if (!started)
+            {
+                return;
+            }
+
+            if(paused)
+            {
+                return;
+            }
+
+            pausedTime = Time;
+
+            paused = true;
+        }
+
+        public void Resume()
+        {
+            if (!started)
+            {
+                return;
+            }
+
+            if (!paused)
+            {
+                return;
+            }
+
+            paused = false;
+
+            startTime = TimeContext.Time - pausedTime;
+        }
+
         public void Reset()
         {
             started = false;
+            paused = false;
 
             startTime = TimeSpan.Zero;
+            pausedTime = TimeSpan.Zero;
         }
 
         public void Restart()
