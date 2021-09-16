@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Juce.CoreUnity.Events.Consumer
+namespace Juce.Core.Events.Consumer
 {
     public class EventConsumer<T> where T : Enum
     {
