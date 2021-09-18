@@ -4,6 +4,7 @@ namespace Juce.Core.CleanUp
 {
     public interface ICleanUpActionsRepository
     {
-        public void Add(Action action);
+        void Add(Action action);
+        void CleanUp();
     }
 }

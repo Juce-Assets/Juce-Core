@@ -22,5 +22,13 @@ namespace Juce.Core.Sequencing
 
             return sequencer;
         }
+
+        public void KillAll()
+        {
+            foreach(KeyValuePair<T, Sequencer> timeline in timelines)
+            {
+                timeline.Value.Kill();
+            }
+        }
     }
 }

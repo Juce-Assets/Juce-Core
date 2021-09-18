@@ -9,5 +9,6 @@ namespace Juce.Core.Sequencing
         public IReadOnlyList<ISequencer> Timelines { get; }
 
         ISequencer GetOrCreateTimeline(T identifier);
+        void KillAll();
     }
 }

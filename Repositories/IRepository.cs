@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 
-namespace Juce.Core.Factories
+namespace Juce.Core.Repositories
 {
-    public interface IRepository<TId, TObject>
+    public interface IRepository<TObject>
     {
-        IReadOnlyList<TObject> Objects { get; }
+        IReadOnlyList<TObject> Items { get; }
 
-        void Add(TId id, TObject obj);
-        void Remove(TId id);
-        bool TryGet(TId id, out TObject obj);
+        void Add(TObject obj);
+        void Remove(TObject obj);
+        bool Contains(TObject obj);
     }
 }

@@ -1,27 +1,26 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 
-namespace Juce.Core.Factories
+namespace Juce.Core.Repositories
 {
-    public class SimpleRepository<TId, TObject> : IRepository<TId, TObject>
+    public class SimpleRepository<TObject> : IRepository<TObject>
     {
-        private readonly Dictionary<TId, TObject> items = new Dictionary<TId, TObject>();
+        private readonly List<TObject> items = new List<TObject>();
 
-        public IReadOnlyList<TObject> Objects => items.Values.ToList();
+        public IReadOnlyList<TObject> Items => items;
 
-        public void Add(TId id, TObject obj)
+        public void Add(TObject obj)
         {
-            items.Add(id, obj);
+            items.Add(obj);
         }
 
-        public void Remove(TId id)
+        public void Remove(TObject obj)
         {
-            items.Remove(id);
+            items.Remove(obj);
         }
 
-        public bool TryGet(TId id, out TObject obj)
+        public bool Contains(TObject obj)
         {
-            return items.TryGetValue(id, out obj);
+            return items.Contains(obj);
         }
     }
 }
