@@ -1,5 +1,6 @@
 {
-    "name": "Juce.Core",
+    "name": "Juce.Core.Runtime",
+    "rootNamespace": "",
     "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],

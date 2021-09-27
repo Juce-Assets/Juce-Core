@@ -1,0 +1,18 @@
+{
+    "name": "Juce.Core.Tests",
+    "rootNamespace": "",
+    "references": [
+        "GUID:9e2a0871e420eb64685e511167cd0d57"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
