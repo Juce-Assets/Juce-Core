@@ -1,3 +1,5 @@
+using Juce.Core.DI.Builder;
+using Juce.Core.DI.Container;
 using Juce.Core.DI.Data;
 using NUnit.Framework;
 using System;
@@ -136,6 +138,28 @@ namespace Juce.Core.DI
         }
 
         [Test]
+        public void DIBuilderTests_InterfaceBind()
+        {
+            IDIContainerBuilder containerBuilder = new DIContainerBuilder();
+
+            containerBuilder.Bind<IClass1Test, Class1Test>().FromNew();
+
+            IDIContainer container = containerBuilder.Build();
+
+            IClass1Test class1Test = container.Resolve<IClass1Test>();
+
+            Assert.NotNull(class1Test);
+        }
+
+        [Test]
+        public void DIBuilderTests_InterfaceBindNonAssignableAssert()
+        {
+            IDIContainerBuilder containerBuilder = new DIContainerBuilder();
+
+            Assert.Throws<Exception>(() => containerBuilder.Bind<IClass1Test, Class2Test>().FromNew());
+        }
+
+        [Test]
         public void DIBuilderTests_AssertDuplicateBind()
         {
             IDIContainerBuilder containerBuilder = new DIContainerBuilder();
@@ -161,6 +185,18 @@ namespace Juce.Core.DI
             IDIContainer container2 = containerBuilder2.Build();
 
             container2.Resolve<Class2Test>();
+        }
+
+        [Test]
+        public void DIBuilderTests_AssertMultipleContainersWithDuplicatesBind()
+        {
+            IDIContainerBuilder containerBuilder1 = new DIContainerBuilder();
+            containerBuilder1.Bind<Class1Test>().FromNew();
+            IDIContainer container1 = containerBuilder1.Build();
+
+            IDIContainerBuilder containerBuilder2 = new DIContainerBuilder();
+            containerBuilder2.Bind<Class1Test>().FromNew();
+            Assert.Throws<Exception>(() => containerBuilder2.Bind(container1));
         }
     }
 }

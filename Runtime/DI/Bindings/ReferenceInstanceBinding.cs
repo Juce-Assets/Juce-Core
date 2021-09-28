@@ -1,12 +1,18 @@
-﻿using System;
+﻿using Juce.Core.DI.Container;
+using System;
 
-namespace Juce.Core.DI
+namespace Juce.Core.DI.Bindings
 {
     public class ReferenceInstanceBinding : DIBinding
     {
         private readonly object obj;
 
-        public ReferenceInstanceBinding(Type type, object obj) : base(type)
+        public ReferenceInstanceBinding(
+            Type identifierType, 
+            Type actualType, 
+            object obj
+            ) 
+            : base(identifierType, actualType)
         {
             this.obj = obj;
         }

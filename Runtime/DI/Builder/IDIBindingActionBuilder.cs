@@ -1,6 +1,7 @@
-﻿using System;
+﻿using Juce.Core.DI.Container;
+using System;
 
-namespace Juce.Core.DI
+namespace Juce.Core.DI.Builder
 {
     public interface IDIBindingActionBuilder<T>
     {

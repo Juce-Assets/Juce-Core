@@ -1,4 +1,6 @@
-﻿namespace Juce.Core.DI
+﻿using Juce.Core.DI.Container;
+
+namespace Juce.Core.DI.BindingActions
 {
     public interface IDIBindingAction
     {

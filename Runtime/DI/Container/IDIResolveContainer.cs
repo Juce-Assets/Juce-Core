@@ -1,4 +1,4 @@
-﻿namespace Juce.Core.DI
+﻿namespace Juce.Core.DI.Container
 {
     public interface IDIResolveContainer 
     {

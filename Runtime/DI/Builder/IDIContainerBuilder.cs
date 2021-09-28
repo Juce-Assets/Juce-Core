@@ -1,12 +1,17 @@
-﻿using System.Collections.Generic;
+﻿using Juce.Core.DI.Container;
+using Juce.Core.DI.Installers;
+using System.Collections.Generic;
 
-namespace Juce.Core.DI
+namespace Juce.Core.DI.Builder
 {
     public interface IDIContainerBuilder
     {
         IDIBindingBuilder<T> Bind<T>();
-        void Bind(params IDIContainer[] container);
+        IDIBindingBuilder<TConcrete> Bind<TInterface, TConcrete>();
+        void Bind(params IDIContainer[] containers);
         void Bind(IReadOnlyList<IDIContainer> container);
+        void Bind(params IInstaller[] installers);
+        void Bind(IReadOnlyList<IInstaller> container);
 
         IDIContainer Build();
     }

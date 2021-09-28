@@ -1,10 +1,12 @@
-﻿using System;
+﻿using Juce.Core.DI.Container;
+using System;
 
-namespace Juce.Core.DI
+namespace Juce.Core.DI.Bindings
 {
     public interface IDIBinding
     {
-        Type Type { get; }
+        Type IdentifierType { get; }
+        Type ActualType { get; }
         object Value { get; }
 
         void Bind(IDIResolveContainer container);

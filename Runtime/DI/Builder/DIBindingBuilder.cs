@@ -1,14 +1,21 @@
-﻿using System;
+﻿using Juce.Core.DI.Bindings;
+using Juce.Core.DI.Container;
+using System;
 
-namespace Juce.Core.DI
+namespace Juce.Core.DI.Builder
 {
     public class DIBindingBuilder<T> : IDIBindingBuilder<T>
     {
         private readonly DIContainerBuilder containerBuilder;
+        private readonly Type identifierType;
 
-        public DIBindingBuilder(DIContainerBuilder containerBuilder)
+        public DIBindingBuilder(
+            DIContainerBuilder containerBuilder,
+            Type identifierType
+            )
         {
             this.containerBuilder = containerBuilder;
+            this.identifierType = identifierType;
         }
 
         public IDIBindingActionBuilder<T> FromNew()
@@ -22,18 +29,18 @@ namespace Juce.Core.DI
                 throw new Exception($"Object of type {type.Name} cannot be instantiated on runtime");
             }
 
-            DIBinding binding = new NewInstanceBinding(type);
+            DIBinding binding = new NewInstanceBinding(identifierType, type);
 
-            return AddBinding<T>(binding);
+            return AddBinding(binding);
         }
 
         public IDIBindingActionBuilder<T> FromInstance(T instance)
         {
             Type type = typeof(T);
 
-            DIBinding binding = new ReferenceInstanceBinding(type, instance);
+            DIBinding binding = new ReferenceInstanceBinding(identifierType, type, instance);
 
-            return AddBinding<T>(binding);
+            return AddBinding(binding);
         }
 
         public IDIBindingActionBuilder<T> FromFunction(Func<IDIResolveContainer, T> func)
@@ -42,12 +49,12 @@ namespace Juce.Core.DI
 
             Func<IDIResolveContainer, object> castedFunc = (IDIResolveContainer c) => func.Invoke(c);
 
-            DIBinding binding = new FuncInstanceBinding(type, castedFunc);
+            DIBinding binding = new FuncInstanceBinding(identifierType, type, castedFunc);
 
-            return AddBinding<T>(binding);
+            return AddBinding(binding);
         }
 
-        private DIBindingActionBuilder<T> AddBinding<T>(DIBinding binding)
+        private DIBindingActionBuilder<T> AddBinding(DIBinding binding)
         {
             containerBuilder.AddBinding(binding);
 

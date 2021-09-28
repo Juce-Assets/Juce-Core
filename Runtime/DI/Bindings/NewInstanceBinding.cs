@@ -1,17 +1,18 @@
-﻿using System;
+﻿using Juce.Core.DI.Container;
+using System;
 
-namespace Juce.Core.DI
+namespace Juce.Core.DI.Bindings
 {
     public class NewInstanceBinding : DIBinding
     {
-        public NewInstanceBinding(Type type) : base(type)
+        public NewInstanceBinding(Type identifierType, Type actualType) : base(identifierType, actualType)
         {
 
         }
 
         protected override object OnBind(IDIResolveContainer container)
         {
-            return Activator.CreateInstance(Type);
+            return Activator.CreateInstance(ActualType);
         }
     }
 }

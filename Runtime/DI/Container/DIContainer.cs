@@ -1,7 +1,8 @@
-﻿using System;
+﻿using Juce.Core.DI.Bindings;
+using System;
 using System.Collections.Generic;
 
-namespace Juce.Core.DI
+namespace Juce.Core.DI.Container
 {
     public class DIContainer : IDIContainer
     {

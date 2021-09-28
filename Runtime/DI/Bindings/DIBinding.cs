@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Juce.Core.DI.BindingActions;
+using Juce.Core.DI.Container;
+using System;
 using System.Collections.Generic;
 
-namespace Juce.Core.DI
+namespace Juce.Core.DI.Bindings
 {
     public abstract class DIBinding : IDIBinding
     {
@@ -10,12 +12,14 @@ namespace Juce.Core.DI
 
         private bool binded;
 
-        public Type Type { get; }
+        public Type IdentifierType { get; }
+        public Type ActualType { get; }
         public object Value { get; private set; }
 
-        public DIBinding(Type type)
+        public DIBinding(Type identifierType, Type actualType)
         {
-            Type = type;
+            IdentifierType = identifierType;
+            ActualType = actualType;
         }
 
         public void AddInitAction(IDIBindingAction initAction)
