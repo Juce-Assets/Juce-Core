@@ -5,8 +5,8 @@ namespace Juce.Core.DI.Builder
 {
     public interface IDIBindingActionBuilder<T>
     {
-        void WhenInit(Action<IDIResolveContainer, T> func);
-        void WhenInit(Func<T, Action> func);
-        void WhenDispose(Action<T> func);
+        IDIBindingActionBuilder<T> WhenInit(Action<IDIResolveContainer, T> action);
+        IDIBindingActionBuilder<T> WhenInit(Func<T, Action> func);
+        IDIBindingActionBuilder<T> WhenDispose(Action<T> func);
     }
 }

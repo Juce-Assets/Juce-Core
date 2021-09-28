@@ -14,7 +14,7 @@ namespace Juce.Core.DI.Builder
             this.binding = binding;
         }
 
-        public void WhenInit(Action<IDIResolveContainer, T> action)
+        public IDIBindingActionBuilder<T> WhenInit(Action<IDIResolveContainer, T> action)
         {
             Action<IDIResolveContainer, object> castedAction = (IDIResolveContainer resolver, object obj) => action?.Invoke(
                 resolver,
@@ -24,9 +24,11 @@ namespace Juce.Core.DI.Builder
             IDIBindingAction bindingAction = new ActionWithContainerBindingAction(castedAction);
 
             binding.AddInitAction(bindingAction);
+
+            return this;
         }
 
-        public void WhenInit(Func<T, Action> func)
+        public IDIBindingActionBuilder<T> WhenInit(Func<T, Action> func)
         {
             Action<object> castedAction = (object obj) =>
             {
@@ -40,9 +42,11 @@ namespace Juce.Core.DI.Builder
             IDIBindingAction bindingAction = new ActionWithoutContainerBindingAction(castedAction);
 
             binding.AddInitAction(bindingAction);
+
+            return this;
         }
 
-        public void WhenDispose(Action<T> action)
+        public IDIBindingActionBuilder<T> WhenDispose(Action<T> action)
         {
             Action<object> castedAction = (object obj) => action?.Invoke(
                 (T)obj
@@ -51,6 +55,8 @@ namespace Juce.Core.DI.Builder
             IDIBindingAction bindingAction = new ActionWithoutContainerBindingAction(castedAction);
 
             binding.AddDisposeAction(bindingAction);
+
+            return this;
         }
     }
 }
