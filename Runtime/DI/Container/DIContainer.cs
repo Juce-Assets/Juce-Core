@@ -6,6 +6,8 @@ namespace Juce.Core.DI.Container
 {
     public class DIContainer : IDIContainer
     {
+        private readonly List<Type> resolvingStack = new List<Type>();
+
         private readonly Dictionary<Type, IDIBinding> bindings;
 
         public IReadOnlyDictionary<Type, IDIBinding> Bindings => bindings;
@@ -18,6 +20,15 @@ namespace Juce.Core.DI.Container
         public T Resolve<T>()
         {
             Type type = typeof(T);
+
+            bool isCircularDependence = resolvingStack.Contains(type);
+
+            if (isCircularDependence)
+            {
+                throw new Exception($"Circular dependence found resolving {type.Name}");
+            }
+
+            resolvingStack.Add(type);
 
             bool found = bindings.TryGetValue(type, out IDIBinding binding);
 
@@ -33,6 +44,8 @@ namespace Juce.Core.DI.Container
                 throw new Exception($"Object of type {type.Name} Binding returned a null object");
             }
 
+            resolvingStack.Remove(type);
+
             binding.Init(this);
 
             return (T)binding.Value;
@@ -40,7 +53,9 @@ namespace Juce.Core.DI.Container
 
         public void Dispose()
         {
-            foreach(KeyValuePair<Type, IDIBinding> binding in bindings)
+            resolvingStack.Clear();
+
+            foreach (KeyValuePair<Type, IDIBinding> binding in bindings)
             {
                 binding.Value.Dispose(this);
             }

@@ -72,6 +72,26 @@ namespace Juce.Core.DI
         }
 
         [Test]
+        public void DIBuilderTests_AssertCircularResolve()
+        {
+            IDIContainerBuilder containerBuilder = new DIContainerBuilder();
+
+            containerBuilder.Bind<Class5Test>()
+                .FromFunction((x) => new Class5Test(
+                    x.Resolve<Class6Test>()
+                    ));
+
+            containerBuilder.Bind<Class6Test>()
+                .FromFunction((x) => new Class6Test(
+                    x.Resolve<Class5Test>()
+                    ));
+
+            IDIContainer container = containerBuilder.Build();
+
+            Assert.Throws<Exception>(() => container.Resolve<Class5Test>());
+        }
+
+        [Test]
         public void DIBuilderTests_SimpleInit()
         {
             IDIContainerBuilder containerBuilder = new DIContainerBuilder();
