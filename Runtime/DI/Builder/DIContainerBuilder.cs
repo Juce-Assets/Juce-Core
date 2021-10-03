@@ -48,7 +48,12 @@ namespace Juce.Core.DI.Builder
         {
             foreach(IDIContainer container in containers)
             {
-                foreach(KeyValuePair<Type, IDIBinding> binding in container.Bindings)
+                if (container == null)
+                {
+                    throw new Exception("There was a null Container while trying to Bind");
+                }
+
+                foreach (KeyValuePair<Type, IDIBinding> binding in container.Bindings)
                 {
                     AddBinding(binding.Value);
                 }
@@ -59,6 +64,11 @@ namespace Juce.Core.DI.Builder
         {
             foreach (IDIContainer container in containers)
             {
+                if (container == null)
+                {
+                    throw new Exception("There was a null Container while trying to Bind");
+                }
+
                 foreach (KeyValuePair<Type, IDIBinding> binding in container.Bindings)
                 {
                     AddBinding(binding.Value);
@@ -70,6 +80,11 @@ namespace Juce.Core.DI.Builder
         {
             foreach (IInstaller installer in installers)
             {
+                if(installer == null)
+                {
+                    throw new Exception("There was a null Installer while trying to Bind");
+                }
+
                 installer.Install(this);
             }
         }
@@ -78,8 +93,18 @@ namespace Juce.Core.DI.Builder
         {
             foreach (IInstaller installer in installers)
             {
+                if (installer == null)
+                {
+                    throw new Exception("There was a null Installer while trying to Bind");
+                }
+
                 installer.Install(this);
             }
+        }
+
+        public void Bind(Action<IDIContainerBuilder> action)
+        {
+            action?.Invoke(this);
         }
 
         public IDIContainer Build()

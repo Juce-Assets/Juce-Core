@@ -14,6 +14,13 @@ namespace Juce.Core.DI.Builder
             this.binding = binding;
         }
 
+        public IDIBindingActionBuilder<T> NonLazy()
+        {
+            binding.NonLazy();
+
+            return this;
+        }
+
         public IDIBindingActionBuilder<T> WhenInit(Action<IDIResolveContainer, T> action)
         {
             Action<IDIResolveContainer, object> castedAction = (IDIResolveContainer resolver, object obj) => action?.Invoke(
@@ -42,6 +49,20 @@ namespace Juce.Core.DI.Builder
             IDIBindingAction bindingAction = new ActionWithoutContainerBindingAction(castedAction);
 
             binding.AddInitAction(bindingAction);
+
+            return this;
+        }
+
+        public IDIBindingActionBuilder<T> WhenDispose(Action<IDIResolveContainer, T> action)
+        {
+            Action<IDIResolveContainer, object> castedAction = (IDIResolveContainer resolver, object obj) => action?.Invoke(
+              resolver,
+              (T)obj
+              );
+
+            IDIBindingAction bindingAction = new ActionWithContainerBindingAction(castedAction);
+
+            binding.AddDisposeAction(bindingAction);
 
             return this;
         }

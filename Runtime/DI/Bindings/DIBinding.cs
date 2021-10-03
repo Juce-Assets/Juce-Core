@@ -15,11 +15,17 @@ namespace Juce.Core.DI.Bindings
         public Type IdentifierType { get; }
         public Type ActualType { get; }
         public object Value { get; private set; }
+        public bool Lazy { get; private set; } = true;
 
         public DIBinding(Type identifierType, Type actualType)
         {
             IdentifierType = identifierType;
             ActualType = actualType;
+        }
+
+        public void NonLazy()
+        {
+            Lazy = false;
         }
 
         public void AddInitAction(IDIBindingAction initAction)

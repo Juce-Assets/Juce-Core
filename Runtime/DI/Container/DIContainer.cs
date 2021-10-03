@@ -15,6 +15,37 @@ namespace Juce.Core.DI.Container
         public DIContainer(Dictionary<Type, IDIBinding> bindings)
         {
             this.bindings = bindings;
+
+            BindNonLazy();
+        }
+
+        private void BindNonLazy()
+        {
+            foreach(KeyValuePair<Type, IDIBinding> binding in bindings)
+            {
+                if(binding.Value.Lazy)
+                {
+                    continue;
+                }
+
+                Bind(binding.Value);
+            }
+        }
+
+        private void Bind(IDIBinding binding)
+        {
+            resolvingStack.Add(binding.IdentifierType);
+
+            binding.Bind(this);
+
+            if (binding.Value == null)
+            {
+                throw new Exception($"Object of type {binding.IdentifierType.Name} Binding returned a null object");
+            }
+
+            resolvingStack.Remove(binding.IdentifierType);
+
+            binding.Init(this);
         }
 
         public T Resolve<T>()
@@ -28,8 +59,6 @@ namespace Juce.Core.DI.Container
                 throw new Exception($"Circular dependence found resolving {type.Name}");
             }
 
-            resolvingStack.Add(type);
-
             bool found = bindings.TryGetValue(type, out IDIBinding binding);
 
             if(!found)
@@ -37,16 +66,7 @@ namespace Juce.Core.DI.Container
                 throw new Exception($"Object of type {type.Name} could not be resolved");
             }
 
-            binding.Bind(this);
-
-            if(binding.Value == null)
-            {
-                throw new Exception($"Object of type {type.Name} Binding returned a null object");
-            }
-
-            resolvingStack.Remove(type);
-
-            binding.Init(this);
+            Bind(binding);
 
             return (T)binding.Value;
         }

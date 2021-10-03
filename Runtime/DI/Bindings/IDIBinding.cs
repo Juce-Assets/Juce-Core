@@ -8,6 +8,7 @@ namespace Juce.Core.DI.Bindings
         Type IdentifierType { get; }
         Type ActualType { get; }
         object Value { get; }
+        bool Lazy { get; }
 
         void Bind(IDIResolveContainer container);
         void Init(IDIResolveContainer container);

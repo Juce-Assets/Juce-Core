@@ -1,5 +1,6 @@
 ﻿using Juce.Core.DI.Container;
 using Juce.Core.DI.Installers;
+using System;
 using System.Collections.Generic;
 
 namespace Juce.Core.DI.Builder
@@ -12,6 +13,7 @@ namespace Juce.Core.DI.Builder
         void Bind(IReadOnlyList<IDIContainer> container);
         void Bind(params IInstaller[] installers);
         void Bind(IReadOnlyList<IInstaller> container);
+        void Bind(Action<IDIContainerBuilder> action);
 
         IDIContainer Build();
     }
