@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Juce.Core.Time
 {
@@ -109,6 +111,21 @@ namespace Juce.Core.Time
             }
 
             return TimeSpan.Compare(timeSpan, Time) == -1;
+        }
+
+        public async Task AwaitReach(TimeSpan time, CancellationToken cancellationToken)
+        {
+            while (!HasReached(time) && !cancellationToken.IsCancellationRequested)
+            {
+                await Task.Yield();
+            }
+        }
+
+        public Task AwaitTime(TimeSpan time, CancellationToken cancellationToken)
+        {
+            TimeSpan timeToReach = Time + time;
+
+            return AwaitReach(timeToReach, cancellationToken);
         }
     }
 }

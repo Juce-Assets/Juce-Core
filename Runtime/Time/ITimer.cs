@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Juce.Core.Time
 {
@@ -13,5 +15,7 @@ namespace Juce.Core.Time
         void Reset();
         void Restart();
         bool HasReached(TimeSpan time);
+        Task AwaitReach(TimeSpan time, CancellationToken cancellationToken);
+        Task AwaitTime(TimeSpan time, CancellationToken cancellationToken);
     }
 }
