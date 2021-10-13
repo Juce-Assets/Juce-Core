@@ -3,14 +3,14 @@ using System;
 
 namespace Juce.Core.Stats
 {
-    public class StatModifier
+    public class StatModifier<T>
     {
-        public event GenericEvent<StatModifier, EventArgs> OnChanged;
+        public event GenericEvent<StatModifier<T>, EventArgs> OnChanged;
 
         private StatModificationType statModificationType;
-        private int modificationValue;
+        private T modificationValue;
 
-        public StatModifier(StatModificationType statModificationType, int modificationValue)
+        public StatModifier(StatModificationType statModificationType, T modificationValue)
         {
             this.statModificationType = statModificationType;
             this.modificationValue = modificationValue;
@@ -26,7 +26,7 @@ namespace Juce.Core.Stats
             }
         }
 
-        public int ModificationValue
+        public T ModificationValue
         {
             get => modificationValue;
             set

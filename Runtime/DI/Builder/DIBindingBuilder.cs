@@ -54,6 +54,11 @@ namespace Juce.Core.DI.Builder
             return AddBinding(binding);
         }
 
+        public IDIBindingActionBuilder<T> FromContainer(IDIContainer container)
+        {
+            return FromFunction((c) => container.Resolve<T>());
+        }
+
         private DIBindingActionBuilder<T> AddBinding(DIBinding binding)
         {
             containerBuilder.AddBinding(binding);

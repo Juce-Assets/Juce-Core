@@ -6,11 +6,11 @@ namespace Juce.Core.Bounds.Int
 {
     public class StatModifiedValueMaxIntBounds : IBounds<int>
     {
-        private readonly IStat stat;
+        private readonly IStat<int> stat;
 
         public event GenericEvent<IBounds<int>, EventArgs> OnBoundsChanged;
 
-        public StatModifiedValueMaxIntBounds(IStat stat)
+        public StatModifiedValueMaxIntBounds(IStat<int> stat)
         {
             this.stat = stat;
 
@@ -22,7 +22,7 @@ namespace Juce.Core.Bounds.Int
             return Math.Min(value, stat.ModifiedValue);
         }
 
-        private void OnStatModifiedValueChanged(IStat stat, EventArgs eventArgs)
+        private void OnStatModifiedValueChanged(IStat<int> stat, EventArgs eventArgs)
         {
             OnBoundsChanged?.Invoke(this, eventArgs);
         }

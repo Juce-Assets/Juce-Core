@@ -3,14 +3,14 @@ using System;
 
 namespace Juce.Core.Stats
 {
-    public interface IStat
+    public interface IStat<T>
     {
-        event GenericEvent<IStat, EventArgs> OnModifiedValueChanged;
+        event GenericEvent<IStat<T>, EventArgs> OnModifiedValueChanged;
 
-        int BaseValue { get; set; }
-        int ModifiedValue { get; }
+        T BaseValue { get; set; }
+        T ModifiedValue { get; }
 
-        void Add(StatModifier statModifier);
-        void Remove(StatModifier statModifier);
+        void Add(StatModifier<T> statModifier);
+        void Remove(StatModifier<T> statModifier);
     }
 }

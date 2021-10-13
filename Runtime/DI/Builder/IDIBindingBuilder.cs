@@ -8,5 +8,6 @@ namespace Juce.Core.DI.Builder
         IDIBindingActionBuilder<T> FromNew();
         IDIBindingActionBuilder<T> FromInstance(T instance);
         IDIBindingActionBuilder<T> FromFunction(Func<IDIResolveContainer, T> func);
+        IDIBindingActionBuilder<T> FromContainer(IDIContainer container);
     }
 }

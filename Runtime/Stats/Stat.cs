@@ -5,19 +5,20 @@ using System.Collections.Generic;
 
 namespace Juce.Core.Stats
 {
-    public class Stat : IStat
+    public class Stat<T> : IStat<T>
     {
-        private readonly List<StatModifier> statModifiers = new List<StatModifier>();
-        private readonly IBounds<int> statBounds;
+        private readonly List<StatModifier<T>> statModifiers = new List<StatModifier<T>>();
+        private readonly IBounds<T> statBounds;
+        private readonly IStatValueCalculator<T> statValueCalculator;
 
         private bool invalid = true;
 
-        private int baseValue;
-        private int modifiedValue;
+        private T baseValue;
+        private T modifiedValue;
 
-        public event GenericEvent<IStat, EventArgs> OnModifiedValueChanged;
+        public event GenericEvent<IStat<T>, EventArgs> OnModifiedValueChanged;
 
-        public int BaseValue
+        public T BaseValue
         {
             get => baseValue;
             set
@@ -27,7 +28,7 @@ namespace Juce.Core.Stats
             }
         }
 
-        public int ModifiedValue
+        public T ModifiedValue
         {
             get
             {
@@ -42,10 +43,11 @@ namespace Juce.Core.Stats
             }
         }
 
-        public Stat(int baseValue, IBounds<int> statBounds)
+        public Stat(T baseValue, IBounds<T> statBounds, IStatValueCalculator<T> statValueCalculator)
         {
             this.baseValue = baseValue;
             this.statBounds = statBounds;
+            this.statValueCalculator = statValueCalculator;
 
             statBounds.OnBoundsChanged += OnBoundsChanged;
         }
@@ -56,7 +58,7 @@ namespace Juce.Core.Stats
             OnModifiedValueChanged?.Invoke(this, EventArgs.Empty);
         }
 
-        public void Add(StatModifier statModifier)
+        public void Add(StatModifier<T> statModifier)
         {
             if (statModifiers.Contains(statModifier))
             {
@@ -72,7 +74,7 @@ namespace Juce.Core.Stats
             OnModifiedValueChanged?.Invoke(this, EventArgs.Empty);
         }
 
-        public void Remove(StatModifier statModifier)
+        public void Remove(StatModifier<T> statModifier)
         {
             if (!statModifiers.Remove(statModifier))
             {
@@ -86,45 +88,17 @@ namespace Juce.Core.Stats
             OnModifiedValueChanged?.Invoke(this, EventArgs.Empty);
         }
 
-        private int CalculateModifiedValue()
+        private T CalculateModifiedValue()
         {
-            var accumulatedValue = BaseValue;
-
-            var minCap = int.MinValue;
-            var maxCap = int.MaxValue;
-
-            foreach (var statModifier in statModifiers)
-            {
-                switch (statModifier.StatModificationType)
-                {
-                    case StatModificationType.MaximumPercentage:
-                        maxCap = Math.Min(maxCap, MathUtils.Percentage(BaseValue, statModifier.ModificationValue));
-                        break;
-                    case StatModificationType.MinimumPercentage:
-                        minCap = Math.Max(minCap, MathUtils.Percentage(BaseValue, statModifier.ModificationValue));
-                        break;
-                    case StatModificationType.AddPercentage:
-                        accumulatedValue += MathUtils.Percentage(BaseValue, statModifier.ModificationValue);
-                        break;
-                    case StatModificationType.AddAbsolute:
-                        accumulatedValue += statModifier.ModificationValue;
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException();
-                }
-            }
-
-            var clampedValue = MathUtils.Clamp(accumulatedValue, minCap, maxCap);
-
-            return statBounds.ApplyBounds(clampedValue);
+            return statValueCalculator.Calculate(BaseValue, statModifiers, statBounds);
         }
 
-        private void OnStatModifierChanged(StatModifier statModifier, EventArgs eventArgs)
+        private void OnStatModifierChanged(StatModifier<T> statModifier, EventArgs eventArgs)
         {
             Invalidate();
         }
 
-        private void OnBoundsChanged(IBounds<int> bounds, EventArgs eventArgs)
+        private void OnBoundsChanged(IBounds<T> bounds, EventArgs eventArgs)
         {
             Invalidate();
         }
