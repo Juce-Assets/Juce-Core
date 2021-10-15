@@ -1,4 +1,6 @@
-﻿namespace Juce.Core.Repositories
+﻿using System.Collections.Generic;
+
+namespace Juce.Core.Repositories
 {
     public class SimpleSingleRepository<TObject> : ISingleRepository<TObject>
     {
@@ -12,7 +14,7 @@
             HasItem = true;
         }
 
-        public void Remove()
+        public void Clear()
         {
             item = default;
             HasItem = false;
@@ -22,6 +24,16 @@
         {
             obj = item;
             return HasItem;
+        }
+
+        public bool Contains(TObject obj)
+        {
+            if (!HasItem)
+            {
+                return false;
+            }
+
+            return EqualityComparer<TObject>.Default.Equals(item, obj);
         }
     }
 }

@@ -2,12 +2,9 @@
 
 namespace Juce.Core.Repositories
 {
-    public interface IRepository<TObject>
+    public interface IRepository<TObject> : IReadOnlyRepository<TObject>
     {
-        IReadOnlyList<TObject> Items { get; }
-
         void Add(TObject obj);
         void Remove(TObject obj);
-        bool Contains(TObject obj);
     }
 }

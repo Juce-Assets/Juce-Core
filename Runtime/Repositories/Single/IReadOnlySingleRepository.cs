@@ -1,11 +1,10 @@
 ﻿namespace Juce.Core.Repositories
 {
-    public interface ISingleRepository<TObject>
+    public interface IReadOnlySingleRepository<TObject>
     {
         bool HasItem { get; }
 
-        void Set(TObject obj);
-        void Remove();
+        bool Contains(TObject obj);
         bool TryGet(out TObject obj);
     }
 }
