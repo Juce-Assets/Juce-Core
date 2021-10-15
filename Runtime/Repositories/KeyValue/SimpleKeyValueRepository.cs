@@ -19,6 +19,11 @@ namespace Juce.Core.Repositories
             items.Remove(id);
         }
 
+        public void Clear()
+        {
+            items.Clear();
+        }
+
         public bool TryGet(TId id, out TObject obj)
         {
             return items.TryGetValue(id, out obj);

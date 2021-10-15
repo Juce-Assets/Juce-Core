@@ -6,5 +6,6 @@ namespace Juce.Core.Repositories
     {
         void Add(TObject obj);
         void Remove(TObject obj);
+        void Clear();
     }
 }

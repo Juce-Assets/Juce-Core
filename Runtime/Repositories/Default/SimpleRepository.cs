@@ -18,6 +18,11 @@ namespace Juce.Core.Repositories
             items.Remove(obj);
         }
 
+        public void Clear()
+        {
+            items.Clear();
+        }
+
         public bool Contains(TObject obj)
         {
             return items.Contains(obj);
