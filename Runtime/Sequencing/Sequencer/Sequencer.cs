@@ -8,11 +8,10 @@ namespace Juce.Core.Sequencing
     public class Sequencer : ISequencer
     { 
         private readonly Queue<Instruction> instructionQueue = new Queue<Instruction>();
+        private readonly List<Instruction> playingInstructions = new List<Instruction>();
 
         private TaskCompletionSource<object> taskCompletitionSource;
         private CancellationTokenSource cancellationTokenSource;
-
-        private int playingCount = 0;
 
         public bool Enabled { get; set; } = true;
 
@@ -71,7 +70,7 @@ namespace Juce.Core.Sequencing
                 return;
             }
 
-            if (cancellationTokenSource != null)
+            if (playingInstructions.Count > 0)
             {
                 return;
             }
@@ -83,16 +82,16 @@ namespace Juce.Core.Sequencing
             {
                 Instruction currentInstruction = instructionQueue.Dequeue();
 
-                ++playingCount;
+                playingInstructions.Add(currentInstruction);
 
                 await currentInstruction.Execute(cancellationTokenSource.Token);
 
-                --playingCount;
+                playingInstructions.Remove(currentInstruction);
             }
 
             // Normally, we won't have more than one instruction playing at once, but could happen if
             // an instruction is enqued while inside another instruction execution
-            if (playingCount > 0)
+            if (playingInstructions.Count > 0)
             {
                 return;
             }
