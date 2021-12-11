@@ -1,0 +1,17 @@
+{
+  "name": "com.juce.core",
+  "version": "1.0.0",
+  "displayName": "Juce-Core",
+  "description": "Core Juce library for creating games",
+  "keywords": [
+    "Juce",
+    "Core"
+  ],
+  "author": {
+    "name": "Guillem Sunyer",
+    "email": "juce.unity@gmail.com",
+    "url": "https://github.com/Juce-Assets/Juce-Core"
+  },
+  "type": "template",
+  "hideInEditor": false
+}
