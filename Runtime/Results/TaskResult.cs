@@ -1,6 +1,6 @@
-﻿namespace Juce.Core.Random
+﻿namespace Juce.Core.Results
 {
-	public class TaskResult<T>
+	public class TaskResult<T> : ITaskResult<T>
 	{
 		public bool HasResult { get; }
 		public T Value { get; }
@@ -16,7 +16,7 @@
 			return new TaskResult<T>(true, value);
         }
 
-		public static TaskResult<T> FromError()
+		public static TaskResult<T> FromEmpty()
 		{
 			return new TaskResult<T>(false, default);
 		}
