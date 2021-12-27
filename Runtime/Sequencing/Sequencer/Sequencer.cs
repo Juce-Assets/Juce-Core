@@ -6,16 +6,15 @@ using System.Threading.Tasks;
 namespace Juce.Core.Sequencing
 {
     public class Sequencer : ISequencer
-    { 
+    {
         private readonly Queue<Instruction> instructionQueue = new Queue<Instruction>();
-        private readonly List<Instruction> playingInstructions = new List<Instruction>();
 
         private TaskCompletionSource<object> taskCompletitionSource;
         private CancellationTokenSource cancellationTokenSource;
 
         public bool Enabled { get; set; } = true;
 
-        public void Play(Instruction instruction)
+        private void Play(Instruction instruction)
         {
             if (!Enabled)
             {
@@ -47,10 +46,6 @@ namespace Juce.Core.Sequencing
             instructionQueue.Clear();
 
             cancellationTokenSource.Cancel();
-            cancellationTokenSource = null;
-
-            taskCompletitionSource.SetResult(null);
-            taskCompletitionSource = null;
         }
 
         public Task WaitCompletition()
@@ -70,7 +65,7 @@ namespace Juce.Core.Sequencing
                 return;
             }
 
-            if (playingInstructions.Count > 0)
+            if (taskCompletitionSource != null)
             {
                 return;
             }
@@ -82,24 +77,19 @@ namespace Juce.Core.Sequencing
             {
                 Instruction currentInstruction = instructionQueue.Dequeue();
 
-                playingInstructions.Add(currentInstruction);
-
                 await currentInstruction.Execute(cancellationTokenSource.Token);
 
-                playingInstructions.Remove(currentInstruction);
+                if (cancellationTokenSource.IsCancellationRequested)
+                {
+                    break;
+                }
             }
 
-            // Normally, we won't have more than one instruction playing at once, but could happen if
-            // an instruction is enqued while inside another instruction execution
-            if (playingInstructions.Count > 0)
-            {
-                return;
-            }
+            cancellationTokenSource.Dispose();
+            cancellationTokenSource = null;
 
             taskCompletitionSource.SetResult(null);
-
             taskCompletitionSource = null;
-            cancellationTokenSource = null;
         }
     }
 }

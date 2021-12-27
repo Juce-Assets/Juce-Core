@@ -8,7 +8,6 @@ namespace Juce.Core.Sequencing
     {
         bool Enabled { get; set; }
 
-        void Play(Instruction instruction);
         void Play(Action action);
         void Play(Func<CancellationToken, Task> function);
         void Kill();
