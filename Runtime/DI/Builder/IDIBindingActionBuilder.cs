@@ -5,6 +5,9 @@ namespace Juce.Core.DI.Builder
 {
     public interface IDIBindingActionBuilder<T>
     {
+        Type IdentifierType { get; }
+        Type ActualType { get; }
+
         IDIBindingActionBuilder<T> NonLazy();
         IDIBindingActionBuilder<T> WhenInit(Action<IDIResolveContainer, T> action);
         IDIBindingActionBuilder<T> WhenInit(Func<T, Action> func);

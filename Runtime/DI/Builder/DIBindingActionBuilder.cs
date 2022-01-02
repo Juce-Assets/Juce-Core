@@ -14,6 +14,9 @@ namespace Juce.Core.DI.Builder
             this.binding = binding;
         }
 
+        public Type IdentifierType => binding.IdentifierType;
+        public Type ActualType => binding.ActualType;
+
         public IDIBindingActionBuilder<T> NonLazy()
         {
             binding.NonLazy();
