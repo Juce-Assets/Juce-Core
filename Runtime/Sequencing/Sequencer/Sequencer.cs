@@ -90,6 +90,10 @@ namespace Juce.Core.Sequencing
 
             taskCompletitionSource.SetResult(null);
             taskCompletitionSource = null;
+
+            // We check if we can play again to avoid issues with
+            // TaskCompletionSource instant instructions
+            TryRunInstructions();
         }
     }
 }
