@@ -8,22 +8,23 @@ namespace Juce.Core.Time
     {
         private readonly Func<TimeSpan> getTimeCallback;
 
-        private bool started;
         private TimeSpan startTime;
-
-        private bool paused;
         private TimeSpan pausedTime;
+
+        public bool Started { get; private set; }
+        public bool Paused { get; private set; }
+        public bool StartedAndNotPaused => Started && !Paused;
 
         public TimeSpan Time
         {
             get
             {
-                if (!started)
+                if (!Started)
                 {
                     return TimeSpan.Zero;
                 }
 
-                if (paused)
+                if (Paused)
                 {
                     return pausedTime;
                 }
@@ -39,54 +40,54 @@ namespace Juce.Core.Time
 
         public void Start()
         {
-            if (started)
+            if (Started)
             {
                 return;
             }
 
-            started = true;
+            Started = true;
 
             startTime = getTimeCallback.Invoke();
         }
 
         public void Pause()
         {
-            if (!started)
+            if (!Started)
             {
                 return;
             }
 
-            if (paused)
+            if (Paused)
             {
                 return;
             }
 
             pausedTime = Time;
 
-            paused = true;
+            Paused = true;
         }
 
         public void Resume()
         {
-            if (!started)
+            if (!Started)
             {
                 return;
             }
 
-            if (!paused)
+            if (!Paused)
             {
                 return;
             }
 
-            paused = false;
+            Paused = false;
 
             startTime = getTimeCallback.Invoke() - pausedTime;
         }
 
         public void Reset()
         {
-            started = false;
-            paused = false;
+            Started = false;
+            Paused = false;
 
             startTime = TimeSpan.Zero;
             pausedTime = TimeSpan.Zero;
@@ -100,7 +101,7 @@ namespace Juce.Core.Time
 
         public bool HasReached(TimeSpan timeSpan)
         {
-            if (!started)
+            if (!Started)
             {
                 return false;
             }

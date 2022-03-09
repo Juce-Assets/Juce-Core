@@ -6,6 +6,10 @@ namespace Juce.Core.Time
 {
     public interface ITimer
     {
+        bool Started { get; }
+        bool Paused { get; }
+        bool StartedAndNotPaused { get; }
+
         TimeSpan Time { get; }
 
         void Start();
