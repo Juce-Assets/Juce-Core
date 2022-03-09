@@ -46,7 +46,7 @@ namespace Juce.Core.Time
 
             started = true;
 
-            startTime = TimeContext.Time;
+            startTime = getTimeCallback.Invoke();
         }
 
         public void Pause()
@@ -80,7 +80,7 @@ namespace Juce.Core.Time
 
             paused = false;
 
-            startTime = TimeContext.Time - pausedTime;
+            startTime = getTimeCallback.Invoke() - pausedTime;
         }
 
         public void Reset()
