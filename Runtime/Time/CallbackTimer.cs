@@ -4,15 +4,15 @@ using System.Threading.Tasks;
 
 namespace Juce.Core.Time
 {
-    public class Timer : ITimer
+    public class CallbackTimer : ITimer
     {
+        private readonly Func<TimeSpan> getTimeCallback;
+
         private bool started;
         private TimeSpan startTime;
 
         private bool paused;
         private TimeSpan pausedTime;
-
-        public ITimeContext TimeContext { get; private set; }
 
         public TimeSpan Time
         {
@@ -23,23 +23,18 @@ namespace Juce.Core.Time
                     return TimeSpan.Zero;
                 }
 
-                if(paused)
+                if (paused)
                 {
                     return pausedTime;
                 }
 
-                return TimeContext.Time - startTime;
+                return getTimeCallback.Invoke() - startTime;
             }
         }
 
-        public Timer(TickableTimeContext tickableTimeContext)
+        public CallbackTimer(Func<TimeSpan> getTimeCallback)
         {
-            if (tickableTimeContext == null)
-            {
-                throw new ArgumentNullException($"Null {nameof(TickableTimeContext)} at {nameof(Timer)}");
-            }
-
-            TimeContext = tickableTimeContext;
+            this.getTimeCallback = getTimeCallback;;
         }
 
         public void Start()
@@ -61,7 +56,7 @@ namespace Juce.Core.Time
                 return;
             }
 
-            if(paused)
+            if (paused)
             {
                 return;
             }

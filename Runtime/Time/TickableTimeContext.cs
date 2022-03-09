@@ -40,7 +40,7 @@ namespace Juce.Core.Time
 
         public ITimer NewTimer()
         {
-            return new Timer(this);
+            return new TimeContextTimer(this);
         }
     }
 }

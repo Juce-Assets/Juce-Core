@@ -6,7 +6,6 @@ namespace Juce.Core.Time
 {
     public interface ITimer
     {
-        ITimeContext TimeContext { get; }
         TimeSpan Time { get; }
 
         void Start();
