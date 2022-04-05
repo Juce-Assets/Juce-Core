@@ -3,14 +3,14 @@ using System;
 
 namespace Juce.Core.Di.Bindings
 {
-    public class NewInstanceBinding : DiBindingA
+    public class NewInstanceBinding : DiBinding
     {
         public NewInstanceBinding(Type identifierType, Type actualType) : base(identifierType, actualType)
         {
 
         }
 
-        protected override object OnBind(IDiResolveContainerA container)
+        protected override object OnBind(IDiResolveContainer container)
         {
             return Activator.CreateInstance(ActualType);
         }

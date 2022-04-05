@@ -3,9 +3,9 @@ using Juce.Core.Subscribables;
 
 namespace Juce.Core.Di.Extensions
 {
-    public static class DiSubscribableExtensionsA
+    public static class DiSubscribableExtensions
     {
-        public static IDiBindingActionBuilderA<T> LinkSubscribable<T>(this IDiBindingActionBuilderA<T> actionBuilder) 
+        public static IDiBindingActionBuilder<T> LinkSubscribable<T>(this IDiBindingActionBuilder<T> actionBuilder) 
             where T : ISubscribable
         {
             actionBuilder.WhenInit((c, o) => o.Subscribe());

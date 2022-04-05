@@ -4,6 +4,6 @@ namespace Juce.Core.Di.Installers
 {
     public interface IInstaller 
     {
-        void Install(IDiContainerBuilderA container);
+        void Install(IDiContainerBuilder container);
     }
 }

@@ -3,7 +3,7 @@ using System;
 
 namespace Juce.Core.Di.BindingActions
 {
-    public class ActionWithoutContainerBindingAction : IDiBindingActionA
+    public class ActionWithoutContainerBindingAction : IDiBindingAction
     {
         private readonly Action<object> action;
 
@@ -12,7 +12,7 @@ namespace Juce.Core.Di.BindingActions
             this.action = action;
         }
 
-        public void Execute(IDiResolveContainerA resolver, object obj)
+        public void Execute(IDiResolveContainer resolver, object obj)
         {
             action?.Invoke(obj);
         }

@@ -4,15 +4,15 @@ using System.Collections.Generic;
 
 namespace Juce.Core.Di.Container
 {
-    public class DiContainerA : IDiContainerA
+    public class DiContainer : IDiContainer
     {
         private readonly List<Type> resolvingStack = new List<Type>();
 
-        private readonly Dictionary<Type, IDiBindingA> bindings;
+        private readonly Dictionary<Type, IDiBinding> bindings;
 
-        public IReadOnlyDictionary<Type, IDiBindingA> Bindings => bindings;
+        public IReadOnlyDictionary<Type, IDiBinding> Bindings => bindings;
 
-        public DiContainerA(Dictionary<Type, IDiBindingA> bindings)
+        public DiContainer(Dictionary<Type, IDiBinding> bindings)
         {
             this.bindings = bindings;
 
@@ -21,7 +21,7 @@ namespace Juce.Core.Di.Container
 
         private void BindNonLazy()
         {
-            foreach(KeyValuePair<Type, IDiBindingA> binding in bindings)
+            foreach(KeyValuePair<Type, IDiBinding> binding in bindings)
             {
                 if(binding.Value.Lazy)
                 {
@@ -32,7 +32,7 @@ namespace Juce.Core.Di.Container
             }
         }
 
-        private void Bind(IDiBindingA binding)
+        private void Bind(IDiBinding binding)
         {
             resolvingStack.Add(binding.IdentifierType);
 
@@ -59,7 +59,7 @@ namespace Juce.Core.Di.Container
                 throw new Exception($"Circular dependence found resolving {type.Name}");
             }
 
-            bool found = bindings.TryGetValue(type, out IDiBindingA binding);
+            bool found = bindings.TryGetValue(type, out IDiBinding binding);
 
             if(!found)
             {
@@ -75,7 +75,7 @@ namespace Juce.Core.Di.Container
         {
             resolvingStack.Clear();
 
-            foreach (KeyValuePair<Type, IDiBindingA> binding in bindings)
+            foreach (KeyValuePair<Type, IDiBinding> binding in bindings)
             {
                 binding.Value.Dispose(this);
             }

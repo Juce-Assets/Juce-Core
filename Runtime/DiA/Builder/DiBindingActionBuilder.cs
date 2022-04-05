@@ -5,11 +5,11 @@ using System;
 
 namespace Juce.Core.Di.Builder
 {
-    public class DiBindingActionBuilderA<T> : IDiBindingActionBuilderA<T>
+    public class DiBindingActionBuilder<T> : IDiBindingActionBuilder<T>
     {
-        private readonly DiBindingA binding;
+        private readonly DiBinding binding;
 
-        public DiBindingActionBuilderA(DiBindingA binding)
+        public DiBindingActionBuilder(DiBinding binding)
         {
             this.binding = binding;
         }
@@ -17,28 +17,28 @@ namespace Juce.Core.Di.Builder
         public Type IdentifierType => binding.IdentifierType;
         public Type ActualType => binding.ActualType;
 
-        public IDiBindingActionBuilderA<T> NonLazy()
+        public IDiBindingActionBuilder<T> NonLazy()
         {
             binding.NonLazy();
 
             return this;
         }
 
-        public IDiBindingActionBuilderA<T> WhenInit(Action<IDiResolveContainerA, T> action)
+        public IDiBindingActionBuilder<T> WhenInit(Action<IDiResolveContainer, T> action)
         {
-            Action<IDiResolveContainerA, object> castedAction = (IDiResolveContainerA resolver, object obj) => action?.Invoke(
+            Action<IDiResolveContainer, object> castedAction = (IDiResolveContainer resolver, object obj) => action?.Invoke(
                 resolver,
                 (T)obj
                 );
 
-            IDiBindingActionA bindingAction = new ActionWithContainerBindingAction(castedAction);
+            IDiBindingAction bindingAction = new ActionWithContainerBindingAction(castedAction);
 
             binding.AddInitAction(bindingAction);
 
             return this;
         }
 
-        public IDiBindingActionBuilderA<T> WhenInit(Func<T, Action> func)
+        public IDiBindingActionBuilder<T> WhenInit(Func<T, Action> func)
         {
             Action<object> castedAction = (object obj) =>
             {
@@ -49,34 +49,34 @@ namespace Juce.Core.Di.Builder
                 returnedAction?.Invoke();
             };
 
-            IDiBindingActionA bindingAction = new ActionWithoutContainerBindingAction(castedAction);
+            IDiBindingAction bindingAction = new ActionWithoutContainerBindingAction(castedAction);
 
             binding.AddInitAction(bindingAction);
 
             return this;
         }
 
-        public IDiBindingActionBuilderA<T> WhenDispose(Action<IDiResolveContainerA, T> action)
+        public IDiBindingActionBuilder<T> WhenDispose(Action<IDiResolveContainer, T> action)
         {
-            Action<IDiResolveContainerA, object> castedAction = (IDiResolveContainerA resolver, object obj) => action?.Invoke(
+            Action<IDiResolveContainer, object> castedAction = (IDiResolveContainer resolver, object obj) => action?.Invoke(
               resolver,
               (T)obj
               );
 
-            IDiBindingActionA bindingAction = new ActionWithContainerBindingAction(castedAction);
+            IDiBindingAction bindingAction = new ActionWithContainerBindingAction(castedAction);
 
             binding.AddDisposeAction(bindingAction);
 
             return this;
         }
 
-        public IDiBindingActionBuilderA<T> WhenDispose(Action<T> action)
+        public IDiBindingActionBuilder<T> WhenDispose(Action<T> action)
         {
             Action<object> castedAction = (object obj) => action?.Invoke(
                 (T)obj
                 );
 
-            IDiBindingActionA bindingAction = new ActionWithoutContainerBindingAction(castedAction);
+            IDiBindingAction bindingAction = new ActionWithoutContainerBindingAction(castedAction);
 
             binding.AddDisposeAction(bindingAction);
 

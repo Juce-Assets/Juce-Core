@@ -4,13 +4,13 @@ using System;
 
 namespace Juce.Core.Di.Builder
 {
-    public class DiBindingBuilderA<T> : IDiBindingBuilderA<T>
+    public class DiBindingBuilder<T> : IDiBindingBuilder<T>
     {
-        private readonly DiContainerBuilderA containerBuilder;
+        private readonly DiContainerBuilder containerBuilder;
         private readonly Type identifierType;
 
-        public DiBindingBuilderA(
-            DiContainerBuilderA containerBuilder,
+        public DiBindingBuilder(
+            DiContainerBuilder containerBuilder,
             Type identifierType
             )
         {
@@ -18,7 +18,7 @@ namespace Juce.Core.Di.Builder
             this.identifierType = identifierType;
         }
 
-        public IDiBindingActionBuilderA<T> FromNew()
+        public IDiBindingActionBuilder<T> FromNew()
         {
             Type type = typeof(T);
 
@@ -29,41 +29,41 @@ namespace Juce.Core.Di.Builder
                 throw new Exception($"Object of type {type.Name} cannot be instantiated on runtime");
             }
 
-            DiBindingA binding = new NewInstanceBinding(identifierType, type);
+            DiBinding binding = new NewInstanceBinding(identifierType, type);
 
             return AddBinding(binding);
         }
 
-        public IDiBindingActionBuilderA<T> FromInstance(T instance)
+        public IDiBindingActionBuilder<T> FromInstance(T instance)
         {
             Type type = typeof(T);
 
-            DiBindingA binding = new ReferenceInstanceBinding(identifierType, type, instance);
+            DiBinding binding = new ReferenceInstanceBinding(identifierType, type, instance);
 
             return AddBinding(binding);
         }
 
-        public IDiBindingActionBuilderA<T> FromFunction(Func<IDiResolveContainerA, T> func)
+        public IDiBindingActionBuilder<T> FromFunction(Func<IDiResolveContainer, T> func)
         {
             Type type = typeof(T);
 
-            Func<IDiResolveContainerA, object> castedFunc = (IDiResolveContainerA c) => func.Invoke(c);
+            Func<IDiResolveContainer, object> castedFunc = (IDiResolveContainer c) => func.Invoke(c);
 
-            DiBindingA binding = new FuncInstanceBinding(identifierType, type, castedFunc);
+            DiBinding binding = new FuncInstanceBinding(identifierType, type, castedFunc);
 
             return AddBinding(binding);
         }
 
-        public IDiBindingActionBuilderA<T> FromContainer(IDiContainerA container)
+        public IDiBindingActionBuilder<T> FromContainer(IDiContainer container)
         {
             return FromFunction((c) => container.Resolve<T>());
         }
 
-        private DiBindingActionBuilderA<T> AddBinding(DiBindingA binding)
+        private DiBindingActionBuilder<T> AddBinding(DiBinding binding)
         {
             containerBuilder.AddBinding(binding);
 
-            return new DiBindingActionBuilderA<T>(binding);
+            return new DiBindingActionBuilder<T>(binding);
         }
     }
 }

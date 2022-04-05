@@ -3,21 +3,21 @@ using System;
 
 namespace Juce.Core.Di.Bindings
 {
-    public class FuncInstanceBinding : DiBindingA
+    public class FuncInstanceBinding : DiBinding
     {
-        private readonly Func<IDiResolveContainerA, object> func;
+        private readonly Func<IDiResolveContainer, object> func;
 
         public FuncInstanceBinding(
             Type identifierType, 
             Type actualType, 
-            Func<IDiResolveContainerA, object> func
+            Func<IDiResolveContainer, object> func
             ) 
             : base(identifierType, actualType)
         {
             this.func = func;
         }
 
-        protected override object OnBind(IDiResolveContainerA container)
+        protected override object OnBind(IDiResolveContainer container)
         {
             return func.Invoke(container);
         }

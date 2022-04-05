@@ -3,15 +3,15 @@ using System;
 
 namespace Juce.Core.Di.Bindings
 {
-    public interface IDiBindingA
+    public interface IDiBinding
     {
         Type IdentifierType { get; }
         Type ActualType { get; }
         object Value { get; }
         bool Lazy { get; }
 
-        void Bind(IDiResolveContainerA container);
-        void Init(IDiResolveContainerA container);
-        void Dispose(IDiResolveContainerA container);
+        void Bind(IDiResolveContainer container);
+        void Init(IDiResolveContainer container);
+        void Dispose(IDiResolveContainer container);
     }
 }

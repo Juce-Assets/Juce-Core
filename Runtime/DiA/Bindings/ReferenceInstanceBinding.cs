@@ -3,7 +3,7 @@ using System;
 
 namespace Juce.Core.Di.Bindings
 {
-    public class ReferenceInstanceBinding : DiBindingA
+    public class ReferenceInstanceBinding : DiBinding
     {
         private readonly object obj;
 
@@ -17,7 +17,7 @@ namespace Juce.Core.Di.Bindings
             this.obj = obj;
         }
 
-        protected override object OnBind(IDiResolveContainerA container)
+        protected override object OnBind(IDiResolveContainer container)
         {
             return obj;
         }

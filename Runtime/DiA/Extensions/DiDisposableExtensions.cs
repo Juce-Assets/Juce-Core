@@ -3,9 +3,9 @@ using System;
 
 namespace Juce.Core.Di.Extensions
 {
-    public static class DiDisposableExtensionsA
+    public static class DiDisposableExtensions
     {
-        public static IDiBindingActionBuilderA<T> LinkDisposable<T>(this IDiBindingActionBuilderA<T> actionBuilder)
+        public static IDiBindingActionBuilder<T> LinkDisposable<T>(this IDiBindingActionBuilder<T> actionBuilder)
             where T : IDisposable
         {
             return actionBuilder.WhenDispose((o) => o.Dispose());

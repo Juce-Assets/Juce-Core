@@ -2,20 +2,20 @@
 
 namespace Juce.Core.Di.Builder
 {
-    public static class DiContainerBuilderUtilsA
+    public static class DiContainerBuilderUtils
     {
-        public static IDiContainerA Build<TInterface>(TInterface value)
+        public static IDiContainer Build<TInterface>(TInterface value)
         {
-            IDiContainerBuilderA builder = new DiContainerBuilderA();
+            IDiContainerBuilder builder = new DiContainerBuilder();
 
             builder.Bind<TInterface>().FromInstance(value);
 
             return builder.Build();
         }
 
-        public static IDiContainerA Build<TInterface1, TInterface2>(TInterface1 value1, TInterface2 value2)
+        public static IDiContainer Build<TInterface1, TInterface2>(TInterface1 value1, TInterface2 value2)
         {
-            IDiContainerBuilderA builder = new DiContainerBuilderA();
+            IDiContainerBuilder builder = new DiContainerBuilder();
 
             builder.Bind<TInterface1>().FromInstance(value1);
             builder.Bind<TInterface2>().FromInstance(value2);
@@ -23,9 +23,9 @@ namespace Juce.Core.Di.Builder
             return builder.Build();
         }
 
-        public static IDiContainerA Build<TInterface1, TInterface2, TInterface3>(TInterface1 value1, TInterface2 value2, TInterface3 value3)
+        public static IDiContainer Build<TInterface1, TInterface2, TInterface3>(TInterface1 value1, TInterface2 value2, TInterface3 value3)
         {
-            IDiContainerBuilderA builder = new DiContainerBuilderA();
+            IDiContainerBuilder builder = new DiContainerBuilder();
 
             builder.Bind<TInterface1>().FromInstance(value1);
             builder.Bind<TInterface2>().FromInstance(value2);
@@ -34,7 +34,7 @@ namespace Juce.Core.Di.Builder
             return builder.Build();
         }
 
-        public static IDiContainerA Build<
+        public static IDiContainer Build<
             TInterface1, 
             TInterface2, 
             TInterface3, 
@@ -46,7 +46,7 @@ namespace Juce.Core.Di.Builder
             TInterface4 value4
             )
         {
-            IDiContainerBuilderA builder = new DiContainerBuilderA();
+            IDiContainerBuilder builder = new DiContainerBuilder();
 
             builder.Bind<TInterface1>().FromInstance(value1);
             builder.Bind<TInterface2>().FromInstance(value2);
@@ -56,7 +56,7 @@ namespace Juce.Core.Di.Builder
             return builder.Build();
         }
 
-        public static IDiContainerA Build<
+        public static IDiContainer Build<
             TInterface1,
             TInterface2,
             TInterface3,
@@ -70,7 +70,7 @@ namespace Juce.Core.Di.Builder
             TInterface5 value5
             )
         {
-            IDiContainerBuilderA builder = new DiContainerBuilderA();
+            IDiContainerBuilder builder = new DiContainerBuilder();
 
             builder.Bind<TInterface1>().FromInstance(value1);
             builder.Bind<TInterface2>().FromInstance(value2);
