@@ -1,16 +1,16 @@
-﻿using Juce.Core.DI.Bindings;
-using Juce.Core.DI.Container;
-using Juce.Core.DI.Installers;
+﻿using Juce.Core.Di.Bindings;
+using Juce.Core.Di.Container;
+using Juce.Core.Di.Installers;
 using System;
 using System.Collections.Generic;
 
-namespace Juce.Core.DI.Builder
+namespace Juce.Core.Di.Builder
 {
-    public class DIContainerBuilder : IDIContainerBuilder
+    public class DiContainerBuilderA : IDiContainerBuilderA
     {
-        private readonly Dictionary<Type, IDIBinding> bindings = new Dictionary<Type, IDIBinding>();
+        private readonly Dictionary<Type, IDiBindingA> bindings = new Dictionary<Type, IDiBindingA>();
 
-        public void AddBinding(IDIBinding binding)
+        public void AddBinding(IDiBindingA binding)
         {
             bool alreadyAdded = bindings.ContainsKey(binding.IdentifierType);
 
@@ -23,12 +23,12 @@ namespace Juce.Core.DI.Builder
             bindings.Add(binding.IdentifierType, binding);
         }
 
-        public IDIBindingBuilder<T> Bind<T>()
+        public IDiBindingBuilderA<T> Bind<T>()
         {
-            return new DIBindingBuilder<T>(this, typeof(T));
+            return new DiBindingBuilderA<T>(this, typeof(T));
         }
 
-        public IDIBindingBuilder<TConcrete> Bind<TInterface, TConcrete>()
+        public IDiBindingBuilderA<TConcrete> Bind<TInterface, TConcrete>()
         {
             Type interfaceType = typeof(TInterface);
             Type concreteType = typeof(TConcrete);
@@ -41,35 +41,35 @@ namespace Juce.Core.DI.Builder
                     $"concrete type {concreteType.Name}");
             }
 
-            return new DIBindingBuilder<TConcrete>(this, typeof(TInterface));
+            return new DiBindingBuilderA<TConcrete>(this, typeof(TInterface));
         }
 
-        public void Bind(params IDIContainer[] containers)
+        public void Bind(params IDiContainerA[] containers)
         {
-            foreach(IDIContainer container in containers)
+            foreach(IDiContainerA container in containers)
             {
                 if (container == null)
                 {
                     throw new Exception("There was a null Container while trying to Bind");
                 }
 
-                foreach (KeyValuePair<Type, IDIBinding> binding in container.Bindings)
+                foreach (KeyValuePair<Type, IDiBindingA> binding in container.Bindings)
                 {
                     AddBinding(binding.Value);
                 }
             }
         }
 
-        public void Bind(IReadOnlyList<IDIContainer> containers)
+        public void Bind(IReadOnlyList<IDiContainerA> containers)
         {
-            foreach (IDIContainer container in containers)
+            foreach (IDiContainerA container in containers)
             {
                 if (container == null)
                 {
                     throw new Exception("There was a null Container while trying to Bind");
                 }
 
-                foreach (KeyValuePair<Type, IDIBinding> binding in container.Bindings)
+                foreach (KeyValuePair<Type, IDiBindingA> binding in container.Bindings)
                 {
                     AddBinding(binding.Value);
                 }
@@ -102,14 +102,14 @@ namespace Juce.Core.DI.Builder
             }
         }
 
-        public void Bind(Action<IDIContainerBuilder> action)
+        public void Bind(Action<IDiContainerBuilderA> action)
         {
             action?.Invoke(this);
         }
 
-        public IDIContainer Build()
+        public IDiContainerA Build()
         {
-            return new DIContainer(bindings);
+            return new DiContainerA(bindings);
         }
     }
 }

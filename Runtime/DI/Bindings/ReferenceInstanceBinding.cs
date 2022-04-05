@@ -1,9 +1,9 @@
-﻿using Juce.Core.DI.Container;
+﻿using Juce.Core.Di.Container;
 using System;
 
-namespace Juce.Core.DI.Bindings
+namespace Juce.Core.Di.Bindings
 {
-    public class ReferenceInstanceBinding : DIBinding
+    public class ReferenceInstanceBinding : DiBindingA
     {
         private readonly object obj;
 
@@ -17,7 +17,7 @@ namespace Juce.Core.DI.Bindings
             this.obj = obj;
         }
 
-        protected override object OnBind(IDIResolveContainer container)
+        protected override object OnBind(IDiResolveContainerA container)
         {
             return obj;
         }

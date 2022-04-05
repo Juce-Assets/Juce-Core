@@ -1,23 +1,23 @@
-﻿using Juce.Core.DI.Container;
+﻿using Juce.Core.Di.Container;
 using System;
 
-namespace Juce.Core.DI.Bindings
+namespace Juce.Core.Di.Bindings
 {
-    public class FuncInstanceBinding : DIBinding
+    public class FuncInstanceBinding : DiBindingA
     {
-        private readonly Func<IDIResolveContainer, object> func;
+        private readonly Func<IDiResolveContainerA, object> func;
 
         public FuncInstanceBinding(
             Type identifierType, 
             Type actualType, 
-            Func<IDIResolveContainer, object> func
+            Func<IDiResolveContainerA, object> func
             ) 
             : base(identifierType, actualType)
         {
             this.func = func;
         }
 
-        protected override object OnBind(IDIResolveContainer container)
+        protected override object OnBind(IDiResolveContainerA container)
         {
             return func.Invoke(container);
         }

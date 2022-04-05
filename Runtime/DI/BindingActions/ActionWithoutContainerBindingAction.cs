@@ -1,9 +1,9 @@
-﻿using Juce.Core.DI.Container;
+﻿using Juce.Core.Di.Container;
 using System;
 
-namespace Juce.Core.DI.BindingActions
+namespace Juce.Core.Di.BindingActions
 {
-    public class ActionWithoutContainerBindingAction : IDIBindingAction
+    public class ActionWithoutContainerBindingAction : IDiBindingActionA
     {
         private readonly Action<object> action;
 
@@ -12,7 +12,7 @@ namespace Juce.Core.DI.BindingActions
             this.action = action;
         }
 
-        public void Execute(IDIResolveContainer resolver, object obj)
+        public void Execute(IDiResolveContainerA resolver, object obj)
         {
             action?.Invoke(obj);
         }

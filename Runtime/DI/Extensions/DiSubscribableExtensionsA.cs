@@ -1,11 +1,11 @@
-﻿using Juce.Core.DI.Builder;
+﻿using Juce.Core.Di.Builder;
 using Juce.Core.Subscribables;
 
-namespace Juce.Core.DI.Extensions
+namespace Juce.Core.Di.Extensions
 {
-    public static class DISubscribableExtensions
+    public static class DiSubscribableExtensionsA
     {
-        public static IDIBindingActionBuilder<T> LinkSubscribable<T>(this IDIBindingActionBuilder<T> actionBuilder) 
+        public static IDiBindingActionBuilderA<T> LinkSubscribable<T>(this IDiBindingActionBuilderA<T> actionBuilder) 
             where T : ISubscribable
         {
             actionBuilder.WhenInit((c, o) => o.Subscribe());

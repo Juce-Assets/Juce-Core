@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Juce.Core.DI.Data
+namespace Juce.Core.Di.Data
 {
     public class Class3Test : IDisposable
     {

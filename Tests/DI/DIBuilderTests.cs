@@ -1,21 +1,21 @@
-using Juce.Core.DI.Builder;
-using Juce.Core.DI.Container;
-using Juce.Core.DI.Data;
+using Juce.Core.Di.Builder;
+using Juce.Core.Di.Container;
+using Juce.Core.Di.Data;
 using NUnit.Framework;
 using System;
 
-namespace Juce.Core.DI
+namespace Juce.Core.Di
 {
     public class DIBuilderTests
     {
         [Test]
         public void DIBuilderTests_FromNew()
         {
-            IDIContainerBuilder containerBuilder = new DIContainerBuilder();
+            IDiContainerBuilderA containerBuilder = new DiContainerBuilderA();
 
             containerBuilder.Bind<Class1Test>().FromNew();
 
-            IDIContainer container = containerBuilder.Build();
+            IDiContainerA container = containerBuilder.Build();
 
             Class1Test class1Test = container.Resolve<Class1Test>();
 
@@ -27,11 +27,11 @@ namespace Juce.Core.DI
         {
             Class1Test classTest = new Class1Test();
 
-            IDIContainerBuilder containerBuilder = new DIContainerBuilder();
+            IDiContainerBuilderA containerBuilder = new DiContainerBuilderA();
 
             containerBuilder.Bind<Class1Test>().FromInstance(classTest);
 
-            IDIContainer container = containerBuilder.Build();
+            IDiContainerA container = containerBuilder.Build();
 
             Class1Test class1Test = container.Resolve<Class1Test>();
 
@@ -41,11 +41,11 @@ namespace Juce.Core.DI
         [Test]
         public void DIBuilderTests_FromFunction()
         {
-            IDIContainerBuilder containerBuilder = new DIContainerBuilder();
+            IDiContainerBuilderA containerBuilder = new DiContainerBuilderA();
 
             containerBuilder.Bind<Class1Test>().FromFunction((c) => new Class1Test());
 
-            IDIContainer container = containerBuilder.Build();
+            IDiContainerA container = containerBuilder.Build();
 
             Class1Test class1Test = container.Resolve<Class1Test>();
 
@@ -55,7 +55,7 @@ namespace Juce.Core.DI
         [Test]
         public void DIBuilderTests_FromFunctionLateResolve()
         {
-            IDIContainerBuilder containerBuilder = new DIContainerBuilder();
+            IDiContainerBuilderA containerBuilder = new DiContainerBuilderA();
 
             containerBuilder.Bind<Class1Test>().FromNew();
 
@@ -64,7 +64,7 @@ namespace Juce.Core.DI
                     c.Resolve<Class1Test>()
                     ));
 
-            IDIContainer container = containerBuilder.Build();
+            IDiContainerA container = containerBuilder.Build();
 
             Class2Test class2Test = container.Resolve<Class2Test>();
 
@@ -74,7 +74,7 @@ namespace Juce.Core.DI
         [Test]
         public void DIBuilderTests_AssertCircularResolve()
         {
-            IDIContainerBuilder containerBuilder = new DIContainerBuilder();
+            IDiContainerBuilderA containerBuilder = new DiContainerBuilderA();
 
             containerBuilder.Bind<Class5Test>()
                 .FromFunction((x) => new Class5Test(
@@ -86,7 +86,7 @@ namespace Juce.Core.DI
                     x.Resolve<Class5Test>()
                     ));
 
-            IDIContainer container = containerBuilder.Build();
+            IDiContainerA container = containerBuilder.Build();
 
             Assert.Throws<Exception>(() => container.Resolve<Class5Test>());
         }
@@ -94,13 +94,13 @@ namespace Juce.Core.DI
         [Test]
         public void DIBuilderTests_SimpleInit()
         {
-            IDIContainerBuilder containerBuilder = new DIContainerBuilder();
+            IDiContainerBuilderA containerBuilder = new DiContainerBuilderA();
 
             containerBuilder.Bind<Class3Test>()
                 .FromNew()
                 .WhenInit((o) => o.Init);
 
-            IDIContainer container = containerBuilder.Build();
+            IDiContainerA container = containerBuilder.Build();
 
             Class3Test class3Test = container.Resolve<Class3Test>();
 
@@ -110,7 +110,7 @@ namespace Juce.Core.DI
         [Test]
         public void DIBuilderTests_LateResolveInit()
         {
-            IDIContainerBuilder containerBuilder = new DIContainerBuilder();
+            IDiContainerBuilderA containerBuilder = new DiContainerBuilderA();
 
             containerBuilder.Bind<Class1Test>().FromNew();
 
@@ -120,7 +120,7 @@ namespace Juce.Core.DI
                     c.Resolve<Class1Test>()
                     ));
 
-            IDIContainer container = containerBuilder.Build();
+            IDiContainerA container = containerBuilder.Build();
 
             Class3Test class3Test = container.Resolve<Class3Test>();
 
@@ -131,7 +131,7 @@ namespace Juce.Core.DI
         [Test]
         public void DIBuilderTests_SimpleDispose()
         {
-            IDIContainerBuilder containerBuilder = new DIContainerBuilder();
+            IDiContainerBuilderA containerBuilder = new DiContainerBuilderA();
 
             containerBuilder.Bind<Class1Test>().FromNew();
 
@@ -139,7 +139,7 @@ namespace Juce.Core.DI
                 .FromNew()
                 .WhenDispose((o) => o.Dispose());
 
-            IDIContainer container = containerBuilder.Build();
+            IDiContainerA container = containerBuilder.Build();
 
             Class3Test class3Test = container.Resolve<Class3Test>();
 
@@ -152,7 +152,7 @@ namespace Juce.Core.DI
         [Test]
         public void DIBuilderTests_AssertResolve()
         {
-            IDIContainer container = new DIContainerBuilder().Build();
+            IDiContainerA container = new DiContainerBuilderA().Build();
 
             Assert.Throws<Exception>(() => container.Resolve<Class1Test>());
         }
@@ -160,11 +160,11 @@ namespace Juce.Core.DI
         [Test]
         public void DIBuilderTests_InterfaceBind()
         {
-            IDIContainerBuilder containerBuilder = new DIContainerBuilder();
+            IDiContainerBuilderA containerBuilder = new DiContainerBuilderA();
 
             containerBuilder.Bind<IClass1Test, Class1Test>().FromNew();
 
-            IDIContainer container = containerBuilder.Build();
+            IDiContainerA container = containerBuilder.Build();
 
             IClass1Test class1Test = container.Resolve<IClass1Test>();
 
@@ -174,7 +174,7 @@ namespace Juce.Core.DI
         [Test]
         public void DIBuilderTests_InterfaceBindNonAssignableAssert()
         {
-            IDIContainerBuilder containerBuilder = new DIContainerBuilder();
+            IDiContainerBuilderA containerBuilder = new DiContainerBuilderA();
 
             Assert.Throws<Exception>(() => containerBuilder.Bind<IClass1Test, Class2Test>().FromNew());
         }
@@ -182,7 +182,7 @@ namespace Juce.Core.DI
         [Test]
         public void DIBuilderTests_AssertDuplicateBind()
         {
-            IDIContainerBuilder containerBuilder = new DIContainerBuilder();
+            IDiContainerBuilderA containerBuilder = new DiContainerBuilderA();
 
             containerBuilder.Bind<Class1Test>().FromNew();
 
@@ -192,17 +192,17 @@ namespace Juce.Core.DI
         [Test]
         public void DIBuilderTests_MultipleContainersBind()
         {
-            IDIContainerBuilder containerBuilder1 = new DIContainerBuilder();
+            IDiContainerBuilderA containerBuilder1 = new DiContainerBuilderA();
             containerBuilder1.Bind<Class1Test>().FromNew();
-            IDIContainer container1 = containerBuilder1.Build();
+            IDiContainerA container1 = containerBuilder1.Build();
 
-            IDIContainerBuilder containerBuilder2 = new DIContainerBuilder();
+            IDiContainerBuilderA containerBuilder2 = new DiContainerBuilderA();
             containerBuilder2.Bind<Class2Test>()
                 .FromFunction((c) => new Class2Test(
                 c.Resolve<Class1Test>()
                 ));
             containerBuilder2.Bind(container1);
-            IDIContainer container2 = containerBuilder2.Build();
+            IDiContainerA container2 = containerBuilder2.Build();
 
             container2.Resolve<Class2Test>();
         }
@@ -210,11 +210,11 @@ namespace Juce.Core.DI
         [Test]
         public void DIBuilderTests_AssertMultipleContainersWithDuplicatesBind()
         {
-            IDIContainerBuilder containerBuilder1 = new DIContainerBuilder();
+            IDiContainerBuilderA containerBuilder1 = new DiContainerBuilderA();
             containerBuilder1.Bind<Class1Test>().FromNew();
-            IDIContainer container1 = containerBuilder1.Build();
+            IDiContainerA container1 = containerBuilder1.Build();
 
-            IDIContainerBuilder containerBuilder2 = new DIContainerBuilder();
+            IDiContainerBuilderA containerBuilder2 = new DiContainerBuilderA();
             containerBuilder2.Bind<Class1Test>().FromNew();
             Assert.Throws<Exception>(() => containerBuilder2.Bind(container1));
         }

@@ -1,18 +1,18 @@
-﻿using Juce.Core.DI.Bindings;
+﻿using Juce.Core.Di.Bindings;
 using System;
 using System.Collections.Generic;
 
-namespace Juce.Core.DI.Container
+namespace Juce.Core.Di.Container
 {
-    public class DIContainer : IDIContainer
+    public class DiContainerA : IDiContainerA
     {
         private readonly List<Type> resolvingStack = new List<Type>();
 
-        private readonly Dictionary<Type, IDIBinding> bindings;
+        private readonly Dictionary<Type, IDiBindingA> bindings;
 
-        public IReadOnlyDictionary<Type, IDIBinding> Bindings => bindings;
+        public IReadOnlyDictionary<Type, IDiBindingA> Bindings => bindings;
 
-        public DIContainer(Dictionary<Type, IDIBinding> bindings)
+        public DiContainerA(Dictionary<Type, IDiBindingA> bindings)
         {
             this.bindings = bindings;
 
@@ -21,7 +21,7 @@ namespace Juce.Core.DI.Container
 
         private void BindNonLazy()
         {
-            foreach(KeyValuePair<Type, IDIBinding> binding in bindings)
+            foreach(KeyValuePair<Type, IDiBindingA> binding in bindings)
             {
                 if(binding.Value.Lazy)
                 {
@@ -32,7 +32,7 @@ namespace Juce.Core.DI.Container
             }
         }
 
-        private void Bind(IDIBinding binding)
+        private void Bind(IDiBindingA binding)
         {
             resolvingStack.Add(binding.IdentifierType);
 
@@ -59,7 +59,7 @@ namespace Juce.Core.DI.Container
                 throw new Exception($"Circular dependence found resolving {type.Name}");
             }
 
-            bool found = bindings.TryGetValue(type, out IDIBinding binding);
+            bool found = bindings.TryGetValue(type, out IDiBindingA binding);
 
             if(!found)
             {
@@ -75,7 +75,7 @@ namespace Juce.Core.DI.Container
         {
             resolvingStack.Clear();
 
-            foreach (KeyValuePair<Type, IDIBinding> binding in bindings)
+            foreach (KeyValuePair<Type, IDiBindingA> binding in bindings)
             {
                 binding.Value.Dispose(this);
             }

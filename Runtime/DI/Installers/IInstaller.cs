@@ -1,9 +1,9 @@
-﻿using Juce.Core.DI.Builder;
+﻿using Juce.Core.Di.Builder;
 
-namespace Juce.Core.DI.Installers
+namespace Juce.Core.Di.Installers
 {
     public interface IInstaller 
     {
-        void Install(IDIContainerBuilder container);
+        void Install(IDiContainerBuilderA container);
     }
 }

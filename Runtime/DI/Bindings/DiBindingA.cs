@@ -1,14 +1,14 @@
-﻿using Juce.Core.DI.BindingActions;
-using Juce.Core.DI.Container;
+﻿using Juce.Core.Di.BindingActions;
+using Juce.Core.Di.Container;
 using System;
 using System.Collections.Generic;
 
-namespace Juce.Core.DI.Bindings
+namespace Juce.Core.Di.Bindings
 {
-    public abstract class DIBinding : IDIBinding
+    public abstract class DiBindingA : IDiBindingA
     {
-        private readonly List<IDIBindingAction> initActions = new List<IDIBindingAction>();
-        private readonly List<IDIBindingAction> disposeActions = new List<IDIBindingAction>();
+        private readonly List<IDiBindingActionA> initActions = new List<IDiBindingActionA>();
+        private readonly List<IDiBindingActionA> disposeActions = new List<IDiBindingActionA>();
 
         private bool binded;
 
@@ -17,7 +17,7 @@ namespace Juce.Core.DI.Bindings
         public object Value { get; private set; }
         public bool Lazy { get; private set; } = true;
 
-        public DIBinding(Type identifierType, Type actualType)
+        public DiBindingA(Type identifierType, Type actualType)
         {
             IdentifierType = identifierType;
             ActualType = actualType;
@@ -28,7 +28,7 @@ namespace Juce.Core.DI.Bindings
             Lazy = false;
         }
 
-        public void AddInitAction(IDIBindingAction initAction)
+        public void AddInitAction(IDiBindingActionA initAction)
         {
             if (binded)
             {
@@ -38,7 +38,7 @@ namespace Juce.Core.DI.Bindings
             initActions.Add(initAction);
         }
 
-        public void AddDisposeAction(IDIBindingAction disposeAction)
+        public void AddDisposeAction(IDiBindingActionA disposeAction)
         {
             if (binded)
             {
@@ -48,7 +48,7 @@ namespace Juce.Core.DI.Bindings
             disposeActions.Add(disposeAction);
         }
 
-        public void Bind(IDIResolveContainer container)
+        public void Bind(IDiResolveContainerA container)
         {
             if(binded)
             {
@@ -60,7 +60,7 @@ namespace Juce.Core.DI.Bindings
             Value = OnBind(container);
         }
 
-        public void Init(IDIResolveContainer container)
+        public void Init(IDiResolveContainerA container)
         {
             if (!binded)
             {
@@ -72,7 +72,7 @@ namespace Juce.Core.DI.Bindings
                 return;
             }
 
-            foreach (IDIBindingAction initAction in initActions)
+            foreach (IDiBindingActionA initAction in initActions)
             {
                 initAction.Execute(container, Value);
             }
@@ -80,7 +80,7 @@ namespace Juce.Core.DI.Bindings
             initActions.Clear();
         }
 
-        public void Dispose(IDIResolveContainer container)
+        public void Dispose(IDiResolveContainerA container)
         {
             if (!binded)
             {
@@ -92,7 +92,7 @@ namespace Juce.Core.DI.Bindings
                 return;
             }
 
-            foreach (IDIBindingAction disposeAction in disposeActions)
+            foreach (IDiBindingActionA disposeAction in disposeActions)
             {
                 disposeAction.Execute(container, Value);
             }
@@ -100,6 +100,6 @@ namespace Juce.Core.DI.Bindings
             disposeActions.Clear();
         }
 
-        protected abstract object OnBind(IDIResolveContainer container);
+        protected abstract object OnBind(IDiResolveContainerA container);
     }
 }
