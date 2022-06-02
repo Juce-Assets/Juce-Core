@@ -1,9 +1,7 @@
 ﻿namespace Juce.Core.Direction
 {
-    public enum Direction4Axis
+    public enum HorizontalDirection
     {
-        Up,
-        Down,
         Left,
         Right,
     }

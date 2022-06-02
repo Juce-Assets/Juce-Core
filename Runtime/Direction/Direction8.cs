@@ -1,6 +1,6 @@
 ﻿namespace Juce.Core.Direction
 {
-    public enum Direction8Axis
+    public enum Direction8
     {
         Up,
         Down,
