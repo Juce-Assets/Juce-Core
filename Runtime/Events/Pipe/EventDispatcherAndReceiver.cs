@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Juce.Core.Events
+namespace Juce.Core.Events.Pipe
 {
-    public class EventDispatcherAndReceiver : IEventDispatcher, IEventReceiver
+    public class EventDispatcherAndReceiver : IEventDispatcherAndReceiver
     {
         private readonly Queue<KeyValuePair<Type, object>> eventQueue = new Queue<KeyValuePair<Type, object>>();
 

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Juce.Core.Events
+namespace Juce.Core.Events.Pipe
 {
     public interface IEventDispatcher
     {
