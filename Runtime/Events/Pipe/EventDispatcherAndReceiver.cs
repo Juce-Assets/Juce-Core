@@ -6,10 +6,16 @@ namespace Juce.Core.Events.Pipe
     public class EventDispatcherAndReceiver : IEventDispatcherAndReceiver
     {
         private readonly Queue<KeyValuePair<Type, object>> eventQueue = new Queue<KeyValuePair<Type, object>>();
-
         private readonly Dictionary<Type, List<EventReference>> eventHandlers = new Dictionary<Type, List<EventReference>>();
 
+        private readonly bool dequeueOnDispatch;
+
         public int EventQueueCount => eventQueue.Count;
+
+        public EventDispatcherAndReceiver(bool dequeueOnDispatch = true)
+        {
+            this.dequeueOnDispatch = dequeueOnDispatch;
+        }
 
         public IEventReference Subscribe<T>(Action<T> action) where T : class
         {
@@ -54,6 +60,11 @@ namespace Juce.Core.Events.Pipe
             Type type = typeof(T);
 
             eventQueue.Enqueue(new KeyValuePair<Type, object>(type, ev));
+
+            if(dequeueOnDispatch)
+            {
+                DequeNext();
+            }
         }
 
         public void DequeNext()
