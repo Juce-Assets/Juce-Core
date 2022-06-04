@@ -1,6 +1,6 @@
 {
   "name": "com.juce.core",
-  "version": "1.5.1",
+  "version": "1.5.2",
   "displayName": "Juce-Core",
   "description": "Core Juce library for creating games",
   "keywords": [
