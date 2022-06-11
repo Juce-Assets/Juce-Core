@@ -1,4 +1,5 @@
 ﻿using Juce.Core.Bounds;
+using Juce.Core.Maths.Utils;
 using System;
 using System.Collections.Generic;
 
@@ -22,13 +23,13 @@ namespace Juce.Core.Stats
                 switch (statModifier.StatModificationType)
                 {
                     case StatModificationType.MaximumPercentage:
-                        maxCap = Math.Min(maxCap, MathUtils.Percentage(baseValue, statModifier.ModificationValue));
+                        maxCap = Math.Min(maxCap, MathsUtils.Percentage(baseValue, statModifier.ModificationValue));
                         break;
                     case StatModificationType.MinimumPercentage:
-                        minCap = Math.Max(minCap, MathUtils.Percentage(baseValue, statModifier.ModificationValue));
+                        minCap = Math.Max(minCap, MathsUtils.Percentage(baseValue, statModifier.ModificationValue));
                         break;
                     case StatModificationType.AddPercentage:
-                        accumulatedValue += MathUtils.Percentage(baseValue, statModifier.ModificationValue);
+                        accumulatedValue += MathsUtils.Percentage(baseValue, statModifier.ModificationValue);
                         break;
                     case StatModificationType.AddAbsolute:
                         accumulatedValue += statModifier.ModificationValue;
@@ -38,7 +39,7 @@ namespace Juce.Core.Stats
                 }
             }
 
-            var clampedValue = MathUtils.Clamp(accumulatedValue, minCap, maxCap);
+            var clampedValue = MathsUtils.Clamp(accumulatedValue, minCap, maxCap);
 
             return statBounds.ApplyBounds(clampedValue);
         }

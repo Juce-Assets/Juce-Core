@@ -1,6 +1,6 @@
-﻿namespace Juce.Core
+﻿namespace Juce.Core.Maths.Utils
 {
-    public class MathUtils
+    public class MathsUtils
     {
         public const int CompletePercentage = 100;
 

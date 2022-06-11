@@ -1,4 +1,4 @@
-﻿namespace Juce.Core.Direction
+﻿namespace Juce.Core.Directions
 {
     public enum HorizontalDirection
     {
