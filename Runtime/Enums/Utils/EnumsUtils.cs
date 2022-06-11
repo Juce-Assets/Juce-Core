@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
 
-namespace Juce.Core.Utils
+namespace Juce.Core.Enums.Utils
 {
-    public static class EnumUtils
+    public static class EnumsUtils
     {
         public static T[] GetValues<T>()
         {

@@ -2,23 +2,30 @@
 {
 	public class TaskResult<T> : ITaskResult<T>
 	{
-		public bool HasResult { get; }
-		public T Value { get; }
+        private readonly T _value;
 
-		private TaskResult(bool hasResult, T value)
-        {
-			HasResult = hasResult;
-			Value = value;
-		}
+        public bool HasResult { get; }
 
-		public static TaskResult<T> FromResult(T value)
+        private TaskResult(bool hasResult, T value)
         {
-			return new TaskResult<T>(true, value);
+            HasResult = hasResult;
+            _value = value;
         }
 
-		public static TaskResult<T> FromEmpty()
-		{
-			return new TaskResult<T>(false, default);
-		}
-	}
+        public static TaskResult<T> FromResult(T value)
+        {
+            return new TaskResult<T>(true, value);
+        }
+
+        public static TaskResult<T> FromEmpty()
+        {
+            return new TaskResult<T>(false, default);
+        }
+
+        public bool TryGetResult(out T result)
+        {
+            result = _value;
+            return HasResult;
+        }
+    }
 }

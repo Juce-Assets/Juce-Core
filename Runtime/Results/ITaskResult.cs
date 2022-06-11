@@ -2,7 +2,7 @@
 {
 	public interface ITaskResult<T>
 	{
-		public bool HasResult { get; }
-		public T Value { get; }
+		bool HasResult { get; }
+		bool TryGetResult(out T result);
 	}
 }
