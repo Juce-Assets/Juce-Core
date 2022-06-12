@@ -17,18 +17,6 @@ namespace Juce.Core.Sequencing
         public int Count => instructionQueue.Count;
         public bool Enabled { get; set; } = true;
 
-        private void Play(Instruction instruction)
-        {
-            if (!Enabled)
-            {
-                return;
-            }
-
-            instructionQueue.Enqueue(instruction);
-
-            TryRunInstructions();
-        }
-
         public void Play(Action action)
         {
             Play(new ActionInstruction(action));
@@ -59,6 +47,18 @@ namespace Juce.Core.Sequencing
             }
 
             return taskCompletitionSource.Task;
+        }
+
+        private void Play(Instruction instruction)
+        {
+            if (!Enabled)
+            {
+                return;
+            }
+
+            instructionQueue.Enqueue(instruction);
+
+            TryRunInstructions();
         }
 
         private async void TryRunInstructions()
