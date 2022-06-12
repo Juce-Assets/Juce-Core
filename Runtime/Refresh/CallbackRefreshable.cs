@@ -2,7 +2,7 @@
 
 namespace Juce.Core.Refresh
 {
-    public class CallbackRefreshable : IRefreshable
+    public sealed class CallbackRefreshable : IRefreshable
     {
         private readonly Action onRefresh;
 

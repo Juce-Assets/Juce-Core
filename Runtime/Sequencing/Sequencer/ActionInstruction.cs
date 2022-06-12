@@ -2,7 +2,7 @@
 
 namespace Juce.Core.Sequencing
 {
-    public class ActionInstruction : InstantInstruction
+    public sealed class ActionInstruction : InstantInstruction
     {
         private readonly Action action;
 

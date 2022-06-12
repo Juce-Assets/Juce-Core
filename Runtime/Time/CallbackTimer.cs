@@ -117,7 +117,7 @@ namespace Juce.Core.Time
             }
         }
 
-        public Task AwaitTime(TimeSpan time, CancellationToken cancellationToken)
+        public Task AwaitSpan(TimeSpan time, CancellationToken cancellationToken)
         {
             TimeSpan timeToReach = Time + time;
 

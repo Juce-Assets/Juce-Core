@@ -3,7 +3,7 @@ using System;
 
 namespace Juce.Core.Bounds.Int
 {
-    public class MinMaxIntBounds : IBounds<int>
+    public sealed class MinMaxIntBounds : IBounds<int>
     {
         private readonly int minValue;
         private readonly int maxValue;

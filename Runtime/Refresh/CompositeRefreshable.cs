@@ -1,6 +1,6 @@
 ﻿namespace Juce.Core.Refresh
 {
-    public class CompositeRefreshable : IRefreshable
+    public sealed class CompositeRefreshable : IRefreshable
     {
         private readonly IRefreshable[] items;
 

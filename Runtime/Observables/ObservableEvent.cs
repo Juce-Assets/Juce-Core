@@ -2,7 +2,7 @@
 
 namespace Juce.Core.Observables
 {
-    public class ObservableEvent<TSender, TEventArgs>
+    public sealed class ObservableEvent<TSender, TEventArgs>
     {
         public event Action<TSender, TEventArgs> OnExecute;
 

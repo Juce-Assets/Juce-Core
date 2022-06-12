@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace Juce.Core.Di.Builder
 {
-    public class DiContainerBuilder : IDiContainerBuilder
+    public sealed class DiContainerBuilder : IDiContainerBuilder
     {
         private readonly Dictionary<Type, IDiBinding> bindings = new Dictionary<Type, IDiBinding>();
 

@@ -6,7 +6,6 @@ namespace Juce.Core.Pathfinding
     {
         bool Finished { get; }
 
-        void Start();
-        void Update();
+        void Step();
     }
 }

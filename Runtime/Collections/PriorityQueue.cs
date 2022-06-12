@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Juce.Core.Collections
 {
-    public class PriorityQueue<T>
+    public sealed class PriorityQueue<T>
     {
         private readonly List<Item> list = new List<Item>();
 

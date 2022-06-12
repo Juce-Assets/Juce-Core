@@ -1,42 +1,31 @@
-﻿using System.Collections.Generic;
+﻿using Juce.Core.Validation.Data;
+using Juce.Core.Validation.Enums;
+using Juce.Core.Validation.Results;
+using System.Collections.Generic;
 
-namespace Juce.Core.Validation
+namespace Juce.Core.Validation.Builder
 {
-    public class ValidationBuilder
+    public sealed class ValidationBuilder : IValidationBuilder
     {
+        private readonly List<IValidationLog> validationLogs = new List<IValidationLog>();
         private ValidationResultType validationResultType = ValidationResultType.Success;
-        private readonly List<ValidationLog> validationLogs = new List<ValidationLog>();
 
         public ValidationBuilder()
         {
 
         }
 
-        public ValidationBuilder(ValidationResult nestedResult)
+        public ValidationBuilder(IValidationResult nestedResult)
         {
-            if(nestedResult == null)
-            {
-                return;
-            }
-
-            if(nestedResult.ValidationResultType == ValidationResultType.Success)
-            {
-                return;
-            }
-
-            validationResultType = nestedResult.ValidationResultType;
+            validationResultType &= nestedResult.ValidationResultType;
 
             validationLogs.AddRange(nestedResult.ValidationLogs);
-        }
-
-        public void SetError()
-        {
-            validationResultType = ValidationResultType.Error;
         }
 
         public void LogError(string logMessage)
         {
             validationLogs.Add(new ValidationLog(ValidationLogType.Error, logMessage));
+            validationResultType = ValidationResultType.Error;
         }
 
         public void LogWarning(string logMessage)
@@ -49,7 +38,7 @@ namespace Juce.Core.Validation
             validationLogs.Add(new ValidationLog(ValidationLogType.Info, logMessage));
         }
 
-        public ValidationResult Build()
+        public IValidationResult Build()
         {
             return new ValidationResult(validationResultType, validationLogs);
         }

@@ -3,7 +3,7 @@ using System;
 
 namespace Juce.Core.Bounds.Int
 {
-    public class ConstantIntBounds : IBounds<int>
+    public sealed class ConstantIntBounds : IBounds<int>
     {
         private readonly int constantValue;
 

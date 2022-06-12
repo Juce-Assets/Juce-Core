@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Juce.Core.Repositories
 {
-    public class SimpleKeyValueRepository<TId, TObject> : IKeyValueRepository<TId, TObject>
+    public sealed class SimpleKeyValueRepository<TId, TObject> : IKeyValueRepository<TId, TObject>
     {
         private readonly Dictionary<TId, TObject> items = new Dictionary<TId, TObject>();
 

@@ -4,7 +4,7 @@ using System;
 
 namespace Juce.Core.Di.Builder
 {
-    public class DiBindingBuilder<T> : IDiBindingBuilder<T>
+    public sealed class DiBindingBuilder<T> : IDiBindingBuilder<T>
     {
         private readonly DiContainerBuilder containerBuilder;
         private readonly Type identifierType;

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Juce.Core.Pathfinding.Algorithms
 {
-    public class BFSPathfindingAlgorithm<T> : IPathfindingAlgorithm<T> where T : IEquatable<T>
+    public sealed class BFSPathfindingAlgorithm<T> : IPathfindingAlgorithm<T> where T : IEquatable<T>
     {
         private readonly Func<T, IReadOnlyList<T>> getChildsFunc;
         private readonly Func<IReadOnlyDictionary<T, PathfindingNode<T>>, List<T>> generateResultFunc;
@@ -12,6 +12,8 @@ namespace Juce.Core.Pathfinding.Algorithms
 
         private readonly List<PathfindingNode<T>> toCheck = new List<PathfindingNode<T>>();
         private readonly Dictionary<T, PathfindingNode<T>> visited = new Dictionary<T, PathfindingNode<T>>();
+
+        private bool started;
 
         public bool Finished { get; private set; }
         public List<T> Result { get; private set; }
@@ -27,29 +29,22 @@ namespace Juce.Core.Pathfinding.Algorithms
             this.originValue = originValue;
         }
 
-        public void Start()
-        {
-            if (getChildsFunc == null)
-            {
-                throw new ArgumentNullException($"Get childs function was null at {nameof(BFSPathfindingAlgorithm<T>)}");
-            }
-
-            if (originValue == null)
-            {
-                throw new ArgumentNullException($"Origin {nameof(T)} was null at {nameof(BFSPathfindingAlgorithm<T>)}");
-            }
-
-            AddToCheck(null, new List<T> { originValue });
-        }
-
-        public void Update()
+        public void Step()
         {
             if(Finished)
             {
                 return;
             }
 
-            if(toCheck.Count == 0)
+            if (!started)
+            {
+                started = true;
+
+                Start();
+                return;
+            }
+
+            if (toCheck.Count == 0)
             {
                 Finish();
                 Finished = true;
@@ -63,6 +58,11 @@ namespace Juce.Core.Pathfinding.Algorithms
             IReadOnlyList<T> childValues = getChildsFunc.Invoke(nodeToCheck.Value);
 
             AddToCheck(nodeToCheck, childValues);
+        }
+
+        private void Start()
+        {
+            AddToCheck(null, new List<T> { originValue });
         }
 
         private PathfindingNode<T> PopToCheck()

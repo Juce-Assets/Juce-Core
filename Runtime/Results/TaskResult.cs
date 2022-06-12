@@ -1,6 +1,6 @@
 ﻿namespace Juce.Core.Results
 {
-	public class TaskResult<T> : ITaskResult<T>
+	public sealed class TaskResult<T> : ITaskResult<T>
 	{
         private readonly T _value;
 

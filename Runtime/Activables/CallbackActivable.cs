@@ -2,7 +2,7 @@
 
 namespace Juce.Core.Activables
 {
-    public class CallbackActivable : IActivable
+    public sealed class CallbackActivable : IActivable
     {
         private readonly Func<bool> getActive;
         private readonly Action<bool> setActive;

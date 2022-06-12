@@ -5,7 +5,7 @@ using System;
 
 namespace Juce.Core.Di.Builder
 {
-    public class DiBindingActionBuilder<T> : IDiBindingActionBuilder<T>
+    public sealed class DiBindingActionBuilder<T> : IDiBindingActionBuilder<T>
     {
         private readonly DiBinding binding;
 

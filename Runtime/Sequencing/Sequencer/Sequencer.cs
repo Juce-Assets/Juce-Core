@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Juce.Core.Sequencing
 {
-    public class Sequencer : ISequencer
+    public sealed class Sequencer : ISequencer
     {
         private readonly Queue<Instruction> instructionQueue = new Queue<Instruction>();
 

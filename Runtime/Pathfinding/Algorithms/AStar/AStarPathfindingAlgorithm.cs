@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Juce.Core.Pathfinding.Algorithms
 {
-    public class AStarPathfindingAlgorithm<T> : IPathfindingAlgorithm<T> where T : IEquatable<T>
+    public sealed class AStarPathfindingAlgorithm<T> : IPathfindingAlgorithm<T> where T : IEquatable<T>
     {
         private readonly Func<T, IReadOnlyList<T>> getChildsFunc;
         private readonly Func<T, float> getPriorityFunc;
@@ -15,6 +15,8 @@ namespace Juce.Core.Pathfinding.Algorithms
 
         private readonly PriorityQueue<PathfindingNode<T>> toCheck = new PriorityQueue<PathfindingNode<T>>();
         private readonly Dictionary<T, PathfindingNode<T>> visited = new Dictionary<T, PathfindingNode<T>>();
+
+        private bool started;
 
         public bool Finished { get; private set; }
         public PathfindingPath<T> Result { get; private set; }
@@ -34,30 +36,18 @@ namespace Juce.Core.Pathfinding.Algorithms
             this.destinationValue = destinationValue;
         }
 
-        public void Start()
-        {
-            if (getChildsFunc == null)
-            {
-                throw new ArgumentNullException($"Get childs function was null at {nameof(AStarPathfindingAlgorithm<T>)}");
-            }
-
-            if (originValue == null)
-            {
-                throw new ArgumentNullException($"Origin {nameof(T)} was null at {nameof(AStarPathfindingAlgorithm<T>)}");
-            }
-
-            if(originValue.Equals(destinationValue))
-            {
-                Finish(AStarPathfindingResult.OriginIsDestination, new PathfindingNode<T>(null, originValue, float.MinValue));
-            }
-
-            AddToCheck(null, new List<T> { originValue });
-        }
-
-        public void Update()
+        public void Step()
         {
             if (Finished)
             {
+                return;
+            }
+
+            if(!started)
+            {
+                started = true;
+
+                Start();
                 return;
             }
 
@@ -84,6 +74,16 @@ namespace Juce.Core.Pathfinding.Algorithms
             IReadOnlyList<T> childValues = getChildsFunc.Invoke(nodeToCheck.Value);
 
             AddToCheck(nodeToCheck, childValues);
+        }
+
+        private void Start()
+        {
+            if (originValue.Equals(destinationValue))
+            {
+                Finish(AStarPathfindingResult.OriginIsDestination, new PathfindingNode<T>(null, originValue, float.MinValue));
+            }
+
+            AddToCheck(null, new List<T> { originValue });
         }
 
         private PathfindingNode<T> PopToCheck()

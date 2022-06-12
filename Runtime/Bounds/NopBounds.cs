@@ -3,7 +3,7 @@ using System;
 
 namespace Juce.Core.Bounds
 {
-    public class NopBounds<T> : IBounds<T>
+    public sealed class NopBounds<T> : IBounds<T>
     {
         public event GenericEvent<IBounds<T>, EventArgs> OnBoundsChanged;
 

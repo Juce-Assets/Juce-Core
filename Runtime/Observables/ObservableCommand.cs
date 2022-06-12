@@ -2,7 +2,7 @@
 
 namespace Juce.Core.Observables
 {
-    public class ObservableCommand
+    public sealed class ObservableCommand
     {
         public event Action OnExecute;
 

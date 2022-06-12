@@ -3,7 +3,7 @@ using System;
 
 namespace Juce.Core.Di.Bindings
 {
-    public class FuncInstanceBinding : DiBinding
+    public sealed class FuncInstanceBinding : DiBinding
     {
         private readonly Func<IDiResolveContainer, object> func;
 

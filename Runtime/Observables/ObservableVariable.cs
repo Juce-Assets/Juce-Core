@@ -1,6 +1,6 @@
 ﻿using System;
 
-public class ObservableVariable<T>
+public sealed class ObservableVariable<T>
 {
     private T value;
 

@@ -3,7 +3,7 @@ using System;
 
 namespace Juce.Core.Di.Bindings
 {
-    public class NewInstanceBinding : DiBinding
+    public sealed class NewInstanceBinding : DiBinding
     {
         public NewInstanceBinding(Type identifierType, Type actualType) : base(identifierType, actualType)
         {

@@ -3,7 +3,7 @@ using System;
 
 namespace Juce.Core.Bounds
 {
-    public class CompositeBounds<T> : IBounds<T>
+    public sealed class CompositeBounds<T> : IBounds<T>
     {
         private readonly IBounds<T>[] bounds;
 

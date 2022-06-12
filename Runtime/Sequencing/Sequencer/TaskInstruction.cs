@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace Juce.Core.Sequencing
 {
-    public class TaskInstruction : Instruction
+    public sealed class TaskInstruction : Instruction
     {
         private readonly Func<CancellationToken, Task> function;
 

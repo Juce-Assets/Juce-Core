@@ -1,4 +1,4 @@
-﻿namespace Juce.Core.Validation
+﻿namespace Juce.Core.Validation.Enums
 {
     public enum ValidationLogType
     {

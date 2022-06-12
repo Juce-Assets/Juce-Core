@@ -1,6 +1,6 @@
 ﻿namespace Juce.Core.Refresh
 {
-    public class NopRefreshable : IRefreshable
+    public sealed class NopRefreshable : IRefreshable
     {
         public static readonly NopRefreshable Instance = new NopRefreshable();
 

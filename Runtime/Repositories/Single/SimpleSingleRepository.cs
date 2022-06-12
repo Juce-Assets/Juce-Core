@@ -2,7 +2,7 @@
 
 namespace Juce.Core.Repositories
 {
-    public class SimpleSingleRepository<TObject> : ISingleRepository<TObject>
+    public sealed class SimpleSingleRepository<TObject> : ISingleRepository<TObject>
     {
         private TObject item;
 

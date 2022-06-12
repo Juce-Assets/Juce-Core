@@ -4,7 +4,7 @@ using System;
 
 namespace Juce.Core.Bounds.Int
 {
-    public class StatModifiedValueMaxIntBounds : IBounds<int>
+    public sealed class StatModifiedValueMaxIntBounds : IBounds<int>
     {
         private readonly IStat<int> stat;
 

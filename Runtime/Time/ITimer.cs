@@ -19,6 +19,6 @@ namespace Juce.Core.Time
         void Restart();
         bool HasReached(TimeSpan time);
         Task AwaitReach(TimeSpan time, CancellationToken cancellationToken);
-        Task AwaitTime(TimeSpan time, CancellationToken cancellationToken);
+        Task AwaitSpan(TimeSpan time, CancellationToken cancellationToken);
     }
 }

@@ -3,7 +3,7 @@ using System;
 
 namespace Juce.Core.Di.BindingActions
 {
-    public class ActionWithContainerBindingAction : IDiBindingAction
+    public sealed class ActionWithContainerBindingAction : IDiBindingAction
     {
         private readonly Action<IDiResolveContainer, object> action;
 

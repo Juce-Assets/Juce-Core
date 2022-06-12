@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace Juce.Core.Reflection
+namespace Juce.Core.Reflection.Utils
 {
     public static class ReflectionUtils
     {

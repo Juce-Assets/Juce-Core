@@ -2,7 +2,7 @@
 
 namespace Juce.Core.Repositories
 {
-    public class SimpleRepository<TObject> : IRepository<TObject>
+    public sealed class SimpleRepository<TObject> : IRepository<TObject>
     {
         private readonly List<TObject> items = new List<TObject>();
 

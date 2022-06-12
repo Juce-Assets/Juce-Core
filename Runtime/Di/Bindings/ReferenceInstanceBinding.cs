@@ -3,7 +3,7 @@ using System;
 
 namespace Juce.Core.Di.Bindings
 {
-    public class ReferenceInstanceBinding : DiBinding
+    public sealed class ReferenceInstanceBinding : DiBinding
     {
         private readonly object obj;
 

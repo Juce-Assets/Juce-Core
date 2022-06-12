@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Juce.Core.Di.Container
 {
-    public class DiContainer : IDiContainer
+    public sealed class DiContainer : IDiContainer
     {
         private readonly List<Type> resolvingStack = new List<Type>();
 
