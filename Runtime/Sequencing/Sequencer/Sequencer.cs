@@ -12,6 +12,9 @@ namespace Juce.Core.Sequencing
         private TaskCompletionSource<object> taskCompletitionSource;
         private CancellationTokenSource cancellationTokenSource;
 
+        public event Action OnComplete;
+
+        public int Count => instructionQueue.Count;
         public bool Enabled { get; set; } = true;
 
         private void Play(Instruction instruction)
@@ -48,7 +51,7 @@ namespace Juce.Core.Sequencing
             cancellationTokenSource.Cancel();
         }
 
-        public Task WaitCompletition()
+        public Task AwaitCompletition()
         {
             if (taskCompletitionSource == null)
             {
@@ -94,6 +97,8 @@ namespace Juce.Core.Sequencing
             // We check if we can play again to avoid issues with
             // TaskCompletionSource instant instructions
             TryRunInstructions();
+
+            OnComplete?.Invoke();
         }
     }
 }
