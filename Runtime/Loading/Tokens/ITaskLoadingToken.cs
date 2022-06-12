@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace Juce.Core.Loading
+namespace Juce.Core.Loading.Tokens
 {
     public interface ITaskLoadingToken
     {
