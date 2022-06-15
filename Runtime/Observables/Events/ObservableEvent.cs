@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace Juce.Core.Observables
+namespace Juce.Core.Observables.Events
 {
-    public sealed class ObservableEvent<TSender, TEventArgs>
+    public sealed class ObservableEvent<TSender, TEventArgs> : IObservableEvent<TSender, TEventArgs>
     {
         public event Action<TSender, TEventArgs> OnExecute;
 
