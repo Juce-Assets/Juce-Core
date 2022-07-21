@@ -16,4 +16,19 @@ namespace Juce.Core.Observables.Events
             OnExecute = null;
         }
     }
+
+    public sealed class ObservableEvent<TEventArgs> : IObservableEvent<TEventArgs>
+    {
+        public event Action<TEventArgs> OnExecute;
+
+        public void Execute(TEventArgs eventArgs)
+        {
+            OnExecute?.Invoke(eventArgs);
+        }
+
+        public void Clear()
+        {
+            OnExecute = null;
+        }
+    }
 }

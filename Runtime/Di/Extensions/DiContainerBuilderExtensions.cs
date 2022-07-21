@@ -1,10 +1,21 @@
-﻿using Juce.Core.Di.Container;
+﻿using Juce.Core.Di.Builder;
+using Juce.Core.Di.Container;
+using Juce.Core.Di.Installers;
 
-namespace Juce.Core.Di.Builder
+namespace Juce.Core.Di.Extensions
 {
-    public static class DiContainerBuilderUtils
+    public static class DiContainerBuilderExtensions
     {
-        public static IDiContainer Build<TInterface>(TInterface value)
+        public static IDiContainer BuildFromInstallers(params IInstaller[] installers)
+        {
+            IDiContainerBuilder builder = new DiContainerBuilder();
+
+            builder.Bind(installers);
+
+            return builder.Build();
+        }
+
+        public static IDiContainer BuildFromInstance<TInterface>(TInterface value)
         {
             IDiContainerBuilder builder = new DiContainerBuilder();
 
@@ -13,7 +24,7 @@ namespace Juce.Core.Di.Builder
             return builder.Build();
         }
 
-        public static IDiContainer Build<TInterface1, TInterface2>(TInterface1 value1, TInterface2 value2)
+        public static IDiContainer BuildFromInstance<TInterface1, TInterface2>(TInterface1 value1, TInterface2 value2)
         {
             IDiContainerBuilder builder = new DiContainerBuilder();
 
@@ -23,7 +34,7 @@ namespace Juce.Core.Di.Builder
             return builder.Build();
         }
 
-        public static IDiContainer Build<TInterface1, TInterface2, TInterface3>(TInterface1 value1, TInterface2 value2, TInterface3 value3)
+        public static IDiContainer BuildFromInstance<TInterface1, TInterface2, TInterface3>(TInterface1 value1, TInterface2 value2, TInterface3 value3)
         {
             IDiContainerBuilder builder = new DiContainerBuilder();
 
@@ -34,14 +45,14 @@ namespace Juce.Core.Di.Builder
             return builder.Build();
         }
 
-        public static IDiContainer Build<
-            TInterface1, 
-            TInterface2, 
-            TInterface3, 
+        public static IDiContainer BuildFromInstance<
+            TInterface1,
+            TInterface2,
+            TInterface3,
             TInterface4
             >(
-            TInterface1 value1, 
-            TInterface2 value2, 
+            TInterface1 value1,
+            TInterface2 value2,
             TInterface3 value3,
             TInterface4 value4
             )
@@ -56,7 +67,7 @@ namespace Juce.Core.Di.Builder
             return builder.Build();
         }
 
-        public static IDiContainer Build<
+        public static IDiContainer BuildFromInstance<
             TInterface1,
             TInterface2,
             TInterface3,

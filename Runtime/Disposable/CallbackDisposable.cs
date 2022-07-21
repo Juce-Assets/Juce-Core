@@ -1,16 +1,16 @@
-﻿using System;
+using System;
 
 namespace Juce.Core.Disposables
 {
-    public class Disposable<T> : IDisposable<T>
+    public sealed class CallbackDisposable<T> : IDisposable<T>
     {
-        private readonly Action<T> onDispose;
+        readonly Action<T> onDispose;
 
         private bool disposed;
 
         public T Value { get; }
 
-        public Disposable(T value, Action<T> onDispose)
+        public CallbackDisposable(T value, Action<T> onDispose)
         {
             Value = value;
             this.onDispose = onDispose;
@@ -18,7 +18,7 @@ namespace Juce.Core.Disposables
 
         public void Dispose()
         {
-            if(disposed)
+            if (disposed)
             {
                 return;
             }
