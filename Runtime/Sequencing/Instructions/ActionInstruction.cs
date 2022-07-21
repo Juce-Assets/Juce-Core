@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Juce.Core.Sequencing
+namespace Juce.Core.Sequencing.Instructions
 {
     public sealed class ActionInstruction : InstantInstruction
     {

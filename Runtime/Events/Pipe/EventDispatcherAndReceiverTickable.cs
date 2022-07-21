@@ -1,4 +1,4 @@
-﻿using Juce.Core.Tickable;
+﻿using Juce.Core.Tick.Tickable;
 
 namespace Juce.Core.Events.Pipe
 {

@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Juce.Core.Sequencing
+namespace Juce.Core.Sequencing.Instructions
 {
     public sealed class TaskInstruction : Instruction
     {

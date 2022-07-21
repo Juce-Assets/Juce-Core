@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Juce.Core.Sequencing.Sequences;
+using System;
 using System.Collections.Generic;
-using System.Linq;
 
-namespace Juce.Core.Sequencing
+namespace Juce.Core.Sequencing.Timelines
 {
     public interface ISequencerTimelines<T> where T : Enum
     {

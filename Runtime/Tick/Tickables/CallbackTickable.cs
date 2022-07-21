@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Juce.Core.Tickable
+namespace Juce.Core.Tick.Tickable
 {
     public class CallbackTickable : ITickable
     {
