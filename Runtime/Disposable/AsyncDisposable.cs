@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace Juce.Core.Disposables
 {
-    public class TaskDisposable<T> : ITaskDisposable<T>
+    public class AsyncDisposable<T> : IAsyncDisposable<T>
     {
         private readonly Func<T, Task> onDispose;
 
@@ -11,13 +11,13 @@ namespace Juce.Core.Disposables
 
         public T Value { get; }
 
-        public TaskDisposable(T value, Func<T, Task> onDispose)
+        public AsyncDisposable(T value, Func<T, Task> onDispose)
         {
             Value = value;
             this.onDispose = onDispose;
         }
 
-        public Task Dispose()
+        public Task DisposeAsync()
         {
             if(disposed)
             {

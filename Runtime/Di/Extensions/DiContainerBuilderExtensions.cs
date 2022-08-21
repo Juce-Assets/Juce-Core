@@ -1,12 +1,22 @@
 ﻿using Juce.Core.Di.Builder;
 using Juce.Core.Di.Container;
 using Juce.Core.Di.Installers;
+using System.Collections.Generic;
 
 namespace Juce.Core.Di.Extensions
 {
     public static class DiContainerBuilderExtensions
     {
         public static IDiContainer BuildFromInstallers(params IInstaller[] installers)
+        {
+            IDiContainerBuilder builder = new DiContainerBuilder();
+
+            builder.Bind(installers);
+
+            return builder.Build();
+        }
+
+        public static IDiContainer BuildFromInstallers(IReadOnlyList<IInstaller> installers)
         {
             IDiContainerBuilder builder = new DiContainerBuilder();
 
