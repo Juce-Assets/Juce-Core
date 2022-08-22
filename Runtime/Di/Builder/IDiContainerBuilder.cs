@@ -13,7 +13,6 @@ namespace Juce.Core.Di.Builder
         void Bind(IReadOnlyList<IDiContainer> container);
         void Bind(params IInstaller[] installers);
         void Bind(IReadOnlyList<IInstaller> container);
-        void Bind(Action<IDiContainerBuilder> action);
 
         IDiContainer Build();
     }

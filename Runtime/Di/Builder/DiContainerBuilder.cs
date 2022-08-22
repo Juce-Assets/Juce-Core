@@ -102,11 +102,6 @@ namespace Juce.Core.Di.Builder
             }
         }
 
-        public void Bind(Action<IDiContainerBuilder> action)
-        {
-            action?.Invoke(this);
-        }
-
         public IDiContainer Build()
         {
             return new DiContainer(bindings);

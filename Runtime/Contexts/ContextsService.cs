@@ -51,6 +51,11 @@ namespace Juce.Core.Contexts
             return context.Load(data, cancellationToken);
         }
 
+        public Task Load<TContext>(CancellationToken cancellationToken) where TContext : IContext
+        {
+            return Load<TContext>(NopContextData.Instance, cancellationToken);
+        }
+
         public void StartCurrent()
         {
             bool currentFound = TryGetCurrentContext(out IContext context);
@@ -77,11 +82,21 @@ namespace Juce.Core.Contexts
             await Load<TContext>(data, cancellationToken);
         }
 
-        public async Task LoadStartCurrent<TContext>(IContextData data, CancellationToken cancellationToken) where TContext : IContext
+        public Task UnloadCurrentAndLoad<TContext>(CancellationToken cancellationToken) where TContext : IContext
+        {
+            return UnloadCurrentAndLoad<TContext>(NopContextData.Instance, cancellationToken);
+        }
+
+        public async Task LoadAndStartCurrent<TContext>(IContextData data, CancellationToken cancellationToken) where TContext : IContext
         {
             await Load<TContext>(data, cancellationToken);
 
             StartCurrent();
+        }
+
+        public Task LoadAndStartCurrent<TContext>(CancellationToken cancellationToken) where TContext : IContext
+        {
+            return LoadAndStartCurrent<TContext>(NopContextData.Instance, cancellationToken);
         }
 
 

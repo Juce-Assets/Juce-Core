@@ -9,8 +9,11 @@ namespace Juce.Core.Contexts
 
         Task UnloadCurrent(CancellationToken cancellationToken);
         Task Load<TContext>(IContextData data, CancellationToken cancellationToken) where TContext : IContext;
+        Task Load<TContext>(CancellationToken cancellationToken) where TContext : IContext;
         void StartCurrent();
         Task UnloadCurrentAndLoad<TContext>(IContextData data, CancellationToken cancellationToken) where TContext : IContext;
-        Task LoadStartCurrent<TContext>(IContextData data, CancellationToken cancellationToken) where TContext : IContext;
+        Task UnloadCurrentAndLoad<TContext>(CancellationToken cancellationToken) where TContext : IContext;
+        Task LoadAndStartCurrent<TContext>(IContextData data, CancellationToken cancellationToken) where TContext : IContext;
+        Task LoadAndStartCurrent<TContext>(CancellationToken cancellationToken) where TContext : IContext;
     }
 }
