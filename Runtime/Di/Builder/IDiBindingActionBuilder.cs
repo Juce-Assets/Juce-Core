@@ -13,5 +13,6 @@ namespace Juce.Core.Di.Builder
         IDiBindingActionBuilder<T> WhenInit(Func<T, Action> func);
         IDiBindingActionBuilder<T> WhenDispose(Action<IDiResolveContainer, T> action);
         IDiBindingActionBuilder<T> WhenDispose(Action<T> func);
+        IDiBindingActionBuilder<T> WhenDispose(Func<T, Action> func);
     }
 }

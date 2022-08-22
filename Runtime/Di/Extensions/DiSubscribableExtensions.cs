@@ -11,6 +11,8 @@ namespace Juce.Core.Di.Extensions
             actionBuilder.WhenInit((c, o) => o.Subscribe());
             actionBuilder.WhenDispose((o) => o.Unsubscribe());
 
+            actionBuilder.NonLazy();
+
             return actionBuilder;
         }
     }

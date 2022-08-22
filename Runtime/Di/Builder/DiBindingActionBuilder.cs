@@ -82,5 +82,23 @@ namespace Juce.Core.Di.Builder
 
             return this;
         }
+
+        public IDiBindingActionBuilder<T> WhenDispose(Func<T, Action> func)
+        {
+            Action<object> castedAction = (object obj) =>
+            {
+                Action returnedAction = func?.Invoke(
+                  (T)obj
+                  );
+
+                returnedAction?.Invoke();
+            };
+
+            IDiBindingAction bindingAction = new ActionWithoutContainerBindingAction(castedAction);
+
+            binding.AddDisposeAction(bindingAction);
+
+            return this;
+        }
     }
 }
